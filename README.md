@@ -1,5 +1,4 @@
-Ryan Dhungel
-MERN STACK NODE API REACT E-Commerce with 116 How-To's
+MERN STACK E-Commerce with 116 How-To's
 
 References
 
