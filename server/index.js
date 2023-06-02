@@ -7,6 +7,7 @@ import morgan from "morgan";
 import authRoute from "./routes/auth.js";
 import categoryRoutes from "./routes/category.js";
 import productRoutes from "./routes/product.js";
+import cors from "cors";
 
 const app = express();
 dotenv.config();
@@ -27,6 +28,7 @@ await mongoose
   });
 
 // Use Morgan middleware
+app.use(cors()); // Enable CORS for all routes
 app.use(morgan("dev"));
 app.use(express.json());
 

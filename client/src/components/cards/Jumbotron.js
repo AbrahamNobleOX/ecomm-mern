@@ -15,9 +15,9 @@ export default function Jumbotron({
       <p className="lead">
         Browse our wide range of products and find what you need.
       </p>
-      <div class="d-flex justify-content-end">
+      <div className="d-flex justify-content-end">
         <button className="btn btn-outline-primary btn-md">
-          Shop Now <i class="bi bi-box-arrow-up-right"></i>
+          Shop Now <i className="bi bi-box-arrow-up-right"></i>
         </button>
       </div>
     </div>

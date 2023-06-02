@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="container py-4">
           <div className="row">
             <div className="col-md-4">
-              <div class="d-flex flex-row mb-3">
+              <div className="d-flex flex-row mb-3">
                 <Link className="navbar-brand" to="#">
                   <img
                     src="https://getbootstrap.com//docs/5.3/assets/brand/bootstrap-logo.svg"
