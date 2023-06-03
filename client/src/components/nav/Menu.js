@@ -69,11 +69,22 @@ export default function Menu() {
                 </>
               ) : (
                 // Else, Render logout link if user is authenticated
-                <li className="nav-item">
-                  <a className="nav-link cursor-pointer" onClick={logout}>
-                    LOGOUT
-                  </a>
-                </li>
+                <>
+                  <li className="nav-item">
+                    <NavLink className="nav-link" to="/dashboard">
+                      DASHBOARD
+                    </NavLink>
+                  </li>
+
+                  <li className="nav-item">
+                    <button
+                      className="nav-link cursor-pointer"
+                      onClick={logout}
+                    >
+                      LOGOUT
+                    </button>
+                  </li>
+                </>
               )}
             </ul>
             <form className="d-flex" role="search">

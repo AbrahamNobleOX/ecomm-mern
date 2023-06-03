@@ -8,7 +8,7 @@ export default function Register() {
   // state
   const [name, setName] = useState("Ryan");
   const [email, setEmail] = useState("Ryan@gmail.com");
-  const [password, setPassword] = useState("123456");
+  const [password, setPassword] = useState("Abc1234##");
   // custom hook
   const [auth, setAuth] = useAuth();
   // hook
@@ -46,7 +46,7 @@ export default function Register() {
         setAuth({ ...auth, token: data.token, user: data.user });
         toast.success("Registration successful");
         toast.dismiss(toastId);
-        navigate("/");
+        navigate("/dashboard");
       }
     } catch (err) {
       if (err.message === "Network Error") {

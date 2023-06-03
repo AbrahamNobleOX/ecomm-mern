@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 export default function Login() {
   // state
   const [email, setEmail] = useState("ryan@gmail.com");
-  const [password, setPassword] = useState("123456");
+  const [password, setPassword] = useState("Abc1234##");
   // custom hook
   const [auth, setAuth] = useAuth();
   // hook
@@ -37,7 +37,7 @@ export default function Login() {
         setAuth({ ...auth, token: data.token, user: data.user });
         toast.success("Login successful");
         toast.dismiss(toastId);
-        navigate("/");
+        navigate("/dashboard");
       }
     } catch (err) {
       if (err.message === "Network Error") {
