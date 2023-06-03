@@ -1,6 +1,25 @@
 import { Link, NavLink } from "react-router-dom";
+import { useAuth } from "../../context/auth";
+import { useNavigate } from "react-router-dom";
 
 export default function Menu() {
+  // custom hook
+  const [auth, setAuth] = useAuth();
+  // hook
+  const navigate = useNavigate();
+
+  // Function to handle user logout
+  const logout = () => {
+    // Clear authentication state
+    setAuth({ ...auth, user: null, token: "" });
+
+    // Remove authentication data from local storage
+    localStorage.removeItem("auth");
+
+    // Redirect to the login page
+    navigate("/login");
+  };
+
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary shadow-lg p-3 mb-5 rounded">
@@ -34,16 +53,28 @@ export default function Menu() {
                   HOME
                 </NavLink>
               </li>
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/login">
-                  LOGIN
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/register">
-                  REGISTER
-                </NavLink>
-              </li>
+              {!auth?.user ? (
+                // Render login and register links if auth.user null
+                <>
+                  <li className="nav-item">
+                    <NavLink className="nav-link" to="/login">
+                      LOGIN
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink className="nav-link" to="/register">
+                      REGISTER
+                    </NavLink>
+                  </li>
+                </>
+              ) : (
+                // Else, Render logout link if user is authenticated
+                <li className="nav-item">
+                  <a className="nav-link cursor-pointer" onClick={logout}>
+                    LOGOUT
+                  </a>
+                </li>
+              )}
             </ul>
             <form className="d-flex" role="search">
               <div className="input-group mb-3">

@@ -25,7 +25,12 @@ export const register = async (req, res) => {
     }
 
     // 3. check if email is taken
-    const existingUser = await User.findOne({ email: email });
+    // const existingUser = await User.findOne({ email: email });
+
+    // 3. Find a user in the database by email, ignoring case sensitivity
+    const existingUser = await User.findOne({
+      email: { $regex: new RegExp(email, "i") },
+    });
     if (existingUser) {
       return res.json({ error: "Email is taken" });
     }
@@ -75,7 +80,13 @@ export const login = async (req, res) => {
       });
     }
     // 3. check if email is taken
-    const user = await User.findOne({ email: email });
+    // const user = await User.findOne({ email: email });
+
+    // 3. Find a user in the database by email, ignoring case sensitivity
+    const user = await User.findOne({
+      email: { $regex: new RegExp(email, "i") },
+    });
+
     if (!user) {
       return res.json({ error: "User not found for this email" });
     }

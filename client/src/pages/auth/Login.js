@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useAuth } from "../../context/auth";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   // state
@@ -9,6 +10,8 @@ export default function Login() {
   const [password, setPassword] = useState("123456");
   // custom hook
   const [auth, setAuth] = useAuth();
+  // hook
+  const navigate = useNavigate();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -34,6 +37,7 @@ export default function Login() {
         setAuth({ ...auth, token: data.token, user: data.user });
         toast.success("Login successful");
         toast.dismiss(toastId);
+        navigate("/");
       }
     } catch (err) {
       if (err.message === "Network Error") {

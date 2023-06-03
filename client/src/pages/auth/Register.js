@@ -2,14 +2,17 @@ import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useAuth } from "../../context/auth";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   // state
   const [name, setName] = useState("Ryan");
-  const [email, setEmail] = useState("ryan@gmail.com");
+  const [email, setEmail] = useState("Ryan@gmail.com");
   const [password, setPassword] = useState("123456");
   // custom hook
   const [auth, setAuth] = useAuth();
+  // hook
+  const navigate = useNavigate();
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -43,6 +46,7 @@ export default function Register() {
         setAuth({ ...auth, token: data.token, user: data.user });
         toast.success("Registration successful");
         toast.dismiss(toastId);
+        navigate("/");
       }
     } catch (err) {
       if (err.message === "Network Error") {
