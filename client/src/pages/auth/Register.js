@@ -1,12 +1,15 @@
 import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useAuth } from "../../context/auth";
 
 export default function Register() {
   // state
   const [name, setName] = useState("Ryan");
   const [email, setEmail] = useState("ryan@gmail.com");
   const [password, setPassword] = useState("123456");
+  // custom hook
+  const [auth, setAuth] = useAuth();
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -36,6 +39,8 @@ export default function Register() {
         toast.error(data.error);
         toast.dismiss(toastId);
       } else {
+        localStorage.setItem("auth", JSON.stringify(data));
+        setAuth({ ...auth, token: data.token, user: data.user });
         toast.success("Registration successful");
         toast.dismiss(toastId);
       }
