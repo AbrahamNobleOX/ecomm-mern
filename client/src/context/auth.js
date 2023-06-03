@@ -1,4 +1,5 @@
 import { useState, createContext, useContext, useEffect } from "react";
+import axios from "axios";
 
 // Create a new context object for authentication state
 const AuthContext = createContext();
@@ -10,6 +11,10 @@ const AuthProvider = ({ children }) => {
     user: null, // Initialize 'user' property as null
     token: "", // Initialize 'token' property as an empty string
   });
+
+  // axios config
+  axios.defaults.baseURL = process.env.REACT_APP_API;
+  axios.defaults.headers.common["Authorization"] = auth?.token;
 
   useEffect(() => {
     // Retrieve the authentication data from local storage

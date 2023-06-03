@@ -24,7 +24,7 @@ export default function Login() {
     e.preventDefault();
     const toastId = toast.loading("Querying");
     try {
-      const { data } = await axios.post(`${process.env.REACT_APP_API}/login`, {
+      const { data } = await axios.post(`/login`, {
         email,
         password,
       });
