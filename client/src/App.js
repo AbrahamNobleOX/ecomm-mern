@@ -11,7 +11,7 @@ import PrivateRoute from "./components/routes/PrivateRoute";
 const PageNotFound = () => {
   return (
     <div className="container main-content d-flex justify-content-center align-items-center fs-1 fw-bold">
-      404 | Page not found
+      404 | Page Not Found
     </div>
   );
 };
