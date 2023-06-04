@@ -8,6 +8,14 @@ import Footer from "./components/footer/Footer";
 import Dashboard from "./pages/user/Dashboard";
 import PrivateRoute from "./components/routes/PrivateRoute";
 
+const PageNotFound = () => {
+  return (
+    <div className="container main-content d-flex justify-content-center align-items-center fs-1 fw-bold">
+      404 | Page not found
+    </div>
+  );
+};
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -21,6 +29,7 @@ export default function App() {
           <Route path="/dashboard" element={<PrivateRoute />}>
             <Route path="" element={<Dashboard />} />
           </Route>
+          <Route path="*" element={<PageNotFound />} replace />
         </Routes>
         <Footer />
       </div>
