@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 import LoadingGIF from "../../images/loading.gif";
 
@@ -10,6 +10,8 @@ export default function Loading() {
 
   // hooks
   const navigate = useNavigate(); // Get the navigate function from react-router-dom
+  const location = useLocation();
+  // console.log(location);
 
   // Set up an effect using useEffect
   useEffect(() => {
@@ -23,7 +25,9 @@ export default function Loading() {
     // Redirect once the count reaches 0
     if (count === 0) {
       // toast.dismiss();
-      navigate("/login");
+      navigate("/login", {
+        state: location.pathname,
+      });
     }
 
     // Clean up the interval when the component unmounts or when the count value changes

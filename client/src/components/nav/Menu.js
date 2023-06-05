@@ -62,6 +62,11 @@ export default function Menu() {
                     </NavLink>
                   </li>
                   <li className="nav-item">
+                    <NavLink className="nav-link" to="/dashboard/secret">
+                      SECRET
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
                     <NavLink className="nav-link" to="/register">
                       REGISTER
                     </NavLink>
