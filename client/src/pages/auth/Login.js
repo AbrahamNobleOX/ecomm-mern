@@ -38,7 +38,11 @@ export default function Login() {
         setAuth({ ...auth, token: data.token, user: data.user });
         toast.success("Login successful");
         toast.dismiss(toastId);
-        navigate(location.state || "/dashboard");
+        console.log(data?.user?.role);
+        navigate(
+          location.state ||
+            `/dashboard/${data?.user?.role === 1 ? "admin" : "user"}`
+        );
       }
     } catch (err) {
       if (err.message === "Network Error") {
