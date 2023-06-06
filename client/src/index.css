@@ -18,3 +18,7 @@
 .cursor-pointer {
   cursor: pointer;
 }
+
+.dropdown-item:active {
+  background-color: #fff;
+}

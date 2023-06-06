@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import toast from "react-hot-toast";
+// import toast from "react-hot-toast";
 import LoadingGIF from "../../images/loading.gif";
 
 // Define the Loading component
@@ -35,7 +35,7 @@ export default function Loading() {
       clearInterval(interval);
       // toast.dismiss();
     };
-  }, [count]);
+  }, [count, location.pathname, navigate]);
 
   // Render the JSX for the Loading component
   return (

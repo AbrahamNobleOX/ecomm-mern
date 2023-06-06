@@ -30,7 +30,7 @@ export default function Menu() {
               alt="Logo"
               width={30}
               height={24}
-              className="d-inline-block align-text-top"
+              className="d-inline-block align-text-top me-1"
             />
             Ecommerce
           </Link>
@@ -50,7 +50,7 @@ export default function Menu() {
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
                 <NavLink className="nav-link" aria-current="page" to="/">
-                  HOME
+                  <i className="bi bi-house-door"></i> HOME
                 </NavLink>
               </li>
               {!auth?.user ? (
@@ -58,37 +58,60 @@ export default function Menu() {
                 <>
                   <li className="nav-item">
                     <NavLink className="nav-link" to="/login">
-                      LOGIN
+                      <i className="bi bi-box-arrow-in-right" /> LOGIN
                     </NavLink>
                   </li>
                   <li className="nav-item">
                     <NavLink className="nav-link" to="/dashboard/secret">
-                      SECRET
+                      <i className="bi bi-link"></i> SECRET
                     </NavLink>
                   </li>
                   <li className="nav-item">
                     <NavLink className="nav-link" to="/register">
-                      REGISTER
+                      <i className="bi bi-person-plus"></i> REGISTER
                     </NavLink>
                   </li>
                 </>
               ) : (
                 // Else, Render logout link if user is authenticated
                 <>
-                  <li className="nav-item">
-                    <NavLink className="nav-link" to="/dashboard">
-                      DASHBOARD
-                    </NavLink>
-                  </li>
-
-                  <li className="nav-item">
-                    <button
-                      className="nav-link cursor-pointer"
-                      onClick={logout}
-                    >
-                      LOGOUT
-                    </button>
-                  </li>
+                  <ul className="navbar-nav">
+                    <li className="nav-item dropdown">
+                      <button
+                        className="nav-link dropdown-toggle"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        <i className="bi bi-person-circle px-1" />
+                        {auth?.user?.name}
+                      </button>
+                      <ul className="dropdown-menu">
+                        <li className="dropdown-item">
+                          <NavLink
+                            className="d-flex nav-link p-0 justify-content-end"
+                            to={`/dashboard/${
+                              auth?.user?.role === 1 ? "admin" : "user"
+                            }`}
+                          >
+                            <i className="bi bi-speedometer2 px-1" />
+                            DASHBOARD
+                          </NavLink>
+                        </li>
+                        <li>
+                          <hr className="dropdown-divider" />
+                        </li>
+                        <li className="dropdown-item d-flex justify-content-end">
+                          <button
+                            className="nav-link p-0 cursor-pointer"
+                            onClick={logout}
+                          >
+                            <i className="bi bi-box-arrow-right px-1" />
+                            LOGOUT
+                          </button>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
                 </>
               )}
             </ul>

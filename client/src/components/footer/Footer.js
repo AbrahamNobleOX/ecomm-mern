@@ -8,15 +8,15 @@ export default function Footer() {
           <div className="row">
             <div className="col-md-4">
               <div className="d-flex flex-row mb-3">
-                <Link className="navbar-brand" to="#">
+                <Link className="navbar-brand d-flex align-items-center" to="#">
                   <img
-                    src="https://getbootstrap.com//docs/5.3/assets/brand/bootstrap-logo.svg"
+                    src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg"
                     alt="Logo"
                     width={30}
                     height={24}
-                    className="d-inline-block"
+                    className="me-2"
                   />
-                  <span className="text-end fs-6"> Ecommerce </span>
+                  <span className="fs-6">Ecommerce</span>
                 </Link>
               </div>
               <h6>Address</h6>
