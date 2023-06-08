@@ -29,7 +29,7 @@ export default function Login() {
         email,
         password,
       });
-      console.log(data);
+      // console.log(data);
       if (data?.error) {
         toast.error(data.error);
         toast.dismiss(toastId);
@@ -38,7 +38,6 @@ export default function Login() {
         setAuth({ ...auth, token: data.token, user: data.user });
         toast.success("Login successful");
         toast.dismiss(toastId);
-        console.log(data?.user?.role);
         navigate(
           location.state ||
             `/dashboard/${data?.user?.role === 1 ? "admin" : "user"}`
