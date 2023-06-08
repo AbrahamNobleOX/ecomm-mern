@@ -123,6 +123,10 @@ export const authcheck = async (req, res) => {
   res.json({ ok: true });
 };
 
+export const admincheck = async (req, res) => {
+  res.json({ ok: true });
+};
+
 // // Example controller method. Custom middleware function
 // export const register = async (req, res) => {
 //     // Sample data

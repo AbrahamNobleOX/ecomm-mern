@@ -9,6 +9,7 @@ import Dashboard from "./pages/user/Dashboard";
 import PrivateRoute from "./components/routes/PrivateRoute";
 import Secret from "./pages/Secret";
 import AdminDashboard from "./pages/admin/Dashboard";
+import AdminRoute from "./components/routes/AdminRoute";
 
 const PageNotFound = () => {
   return (
@@ -30,8 +31,10 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<PrivateRoute />}>
             <Route path="user" element={<Dashboard />} />
-            <Route path="admin" element={<AdminDashboard />} />
             <Route path="secret" element={<Secret />} />
+          </Route>
+          <Route path="/dashboard" element={<AdminRoute />}>
+            <Route path="admin" element={<AdminDashboard />} />
           </Route>
           <Route path="*" element={<PageNotFound />} replace />
         </Routes>
