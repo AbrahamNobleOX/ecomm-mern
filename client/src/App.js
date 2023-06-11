@@ -6,9 +6,9 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import Footer from "./components/footer/Footer";
 import Dashboard from "./pages/user/Dashboard";
+import AdminDashboard from "./pages/admin/Dashboard";
 import PrivateRoute from "./components/routes/PrivateRoute";
 import Secret from "./pages/Secret";
-import AdminDashboard from "./pages/admin/Dashboard";
 import AdminRoute from "./components/routes/AdminRoute";
 
 const PageNotFound = () => {

@@ -12,16 +12,25 @@ export default function AdminRoute() {
 
   useEffect(() => {
     const adminCheck = async () => {
-      const { data } = await axios.get(`/admin-check`);
-      if (data.ok) {
-        setOk(true);
-      } else {
-        setOk(false);
+      try {
+        const { data } = await axios.get(`/admin-check`);
+
+        if (data.ok) {
+          setOk(true);
+        } else {
+          setOk(false);
+        }
+      } catch (err) {
+        console.log(err.message);
       }
     };
 
-    if (auth?.token) adminCheck();
-  }, [auth?.token]);
+    // Check if the "auth.token" dependency has a value
+    if (auth?.token) {
+      // If "auth.token" is not null or undefined, call the "authCheck" function
+      adminCheck();
+    }
+  }, [auth?.token]); // Dependency array ensures the effect runs when 'auth?.token' changes
 
   return ok ? <Outlet /> : <Loading path="" />;
 }

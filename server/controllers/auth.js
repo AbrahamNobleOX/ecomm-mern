@@ -80,12 +80,12 @@ export const login = async (req, res) => {
       });
     }
     // 3. check if email is taken
-    // const user = await User.findOne({ email: email });
+    const user = await User.findOne({ email: email });
 
     // 3. Find a user in the database by email, ignoring case sensitivity
-    const user = await User.findOne({
-      email: { $regex: new RegExp(email, "i") },
-    });
+    // const user = await User.findOne({
+    //   email: { $regex: new RegExp(email, "i") },
+    // });
 
     if (!user) {
       return res.json({ error: "User not found for this email" });
@@ -116,15 +116,27 @@ export const login = async (req, res) => {
 };
 
 export const secret = async (req, res) => {
-  res.json({ currentUser: req.user });
+  try {
+    res.json({ currentUser: req.user });
+  } catch (err) {
+    console.log(err.message);
+  }
 };
 
 export const authcheck = async (req, res) => {
-  res.json({ ok: true });
+  try {
+    res.json({ ok: true });
+  } catch (err) {
+    console.log(err.message);
+  }
 };
 
 export const admincheck = async (req, res) => {
-  res.json({ ok: true });
+  try {
+    res.json({ ok: true });
+  } catch (err) {
+    console.log(err.message);
+  }
 };
 
 // // Example controller method. Custom middleware function

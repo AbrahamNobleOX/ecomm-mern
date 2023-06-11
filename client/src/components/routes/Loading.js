@@ -35,7 +35,7 @@ export default function Loading({ path = "login" }) {
       clearInterval(interval);
       // toast.dismiss();
     };
-  }, [count, location.pathname, navigate]);
+  }, [count, location.pathname, navigate, path]);
 
   // Render the JSX for the Loading component
   return (

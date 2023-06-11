@@ -26,6 +26,7 @@ export const requireSignin = async (req, res, next) => {
 
 export const isAdmin = async (req, res, next) => {
   try {
+    // req.user._id is comming from the requireSignin function above.
     const user = await User.findById(req.user._id);
     if (user.role !== 1) {
       return res.status(401).json({ error: "Unauthorized for this request" });
@@ -33,6 +34,6 @@ export const isAdmin = async (req, res, next) => {
       next();
     }
   } catch (err) {
-    console.log(err);
+    console.log(err.message);
   }
 };

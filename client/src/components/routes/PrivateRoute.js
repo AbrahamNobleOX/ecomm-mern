@@ -14,16 +14,20 @@ export default function PrivateRoute() {
   useEffect(() => {
     // Define an async function named "authCheck" to perform the authentication check
     const authCheck = async () => {
-      // Make a GET request to the "/auth-check" endpoint on the server
-      const { data } = await axios.get(`/auth-check`);
+      try {
+        // Make a GET request to the "/auth-check" endpoint on the server
+        const { data } = await axios.get(`/auth-check`);
 
-      // Check if the response data has the "ok" property set to true
-      if (data.ok) {
-        // If the response is successful, set the "ok" state variable to true
-        setOk(true);
-      } else {
-        // If the response is not successful, set the "ok" state variable to false
-        setOk(false);
+        // Check if the response data has the "ok" property set to true
+        if (data.ok) {
+          // If the response is successful, set the "ok" state variable to true
+          setOk(true);
+        } else {
+          // If the response is not successful, set the "ok" state variable to false
+          setOk(false);
+        }
+      } catch (err) {
+        console.log(err.message);
       }
     };
 
