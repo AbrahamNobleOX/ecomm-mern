@@ -1,7 +1,9 @@
 import { useAuth } from "../../context/auth";
 
 export default function Dashboard() {
+  // context
   const [auth, setAuth] = useAuth();
+
   return (
     <>
       <div className="container main-content mb-5">

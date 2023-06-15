@@ -22,7 +22,7 @@ export default function Menu() {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary shadow-lg p-3 mb-5 rounded">
+      <nav className="navbar navbar-expand-lg bg-body-tertiary shadow-lg p-3 rounded">
         <div className="container">
           <Link className="navbar-brand" to="#">
             <img
