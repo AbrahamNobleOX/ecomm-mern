@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 import AdminMenu from "../../components/nav/AdminMenu";
 
@@ -7,12 +8,11 @@ export default function AdminDashboard() {
 
   return (
     <>
-      <div className="container-fluid main-content mb-5">
+      <div className="container-fluid main-content">
         <div className="row">
-          <div className="col-md-2 p-0">
-            <AdminMenu />
-          </div>
-          <div className="col-md-10">
+          <AdminMenu />
+
+          <div className="col-md-10 mt-5 py-5">
             <div className="content">
               <h1>Welcome to the Dashboard</h1>
 

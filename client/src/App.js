@@ -24,8 +24,8 @@ const PageNotFound = () => {
 export default function App() {
   return (
     <BrowserRouter>
-      <div className="app-wrapper d-flex flex-column min-vh-100">
-        <Menu />
+      <div className="app-wrapper min-vh-100">
+        {/* <Menu /> */}
         <Toaster position="top-right" />
         <Routes>
           <Route path="/" element={<Home />} />

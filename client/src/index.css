@@ -27,8 +27,9 @@
   width: 250px;
   position: fixed;
   height: 100%;
+  margin-top: 0;
   background-color: #f8f9fa;
-  border-right: 2px solid #dee2e6;
+  /* border-right: 2px solid #dee2e6; */
   padding: 20px;
   margin: 0;
   transition: transform 0.3s ease-in-out;
@@ -78,4 +79,9 @@
 
 .submenu {
   text-align: right;
+}
+
+.sidebar-footer {
+  font-size: 14px;
+  text-align: center;
 }
