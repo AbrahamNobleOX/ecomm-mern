@@ -1,28 +1,17 @@
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../../context/auth";
-import { useNavigate } from "react-router-dom";
+import { useLogout } from "../utils/Logout";
 
 export default function Menu() {
   // custom hook
   const [auth, setAuth] = useAuth();
-  // hook
-  const navigate = useNavigate();
 
-  // Function to handle user logout
-  const logout = () => {
-    // Clear authentication state
-    setAuth({ ...auth, user: null, token: "" });
-
-    // Remove authentication data from local storage
-    localStorage.removeItem("auth");
-
-    // Redirect to the login page
-    navigate("/login");
-  };
+  // Logout hook
+  const handleLogout = useLogout();
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary shadow-lg p-3 rounded">
+      <nav className="navbar navbar-expand-lg bg-body-tertiary mb-5 shadow-lg p-3 rounded">
         <div className="container">
           <Link className="navbar-brand" to="#">
             <img
@@ -90,7 +79,7 @@ export default function Menu() {
                           <NavLink
                             className="d-flex nav-link p-0 justify-content-end"
                             to={`/dashboard/${
-                              auth?.user?.role === 1 ? "admin" : "user"
+                              auth?.user?.role === 1 ? "admin/" : "user/"
                             }`}
                           >
                             <i className="bi bi-speedometer2 px-1" />
@@ -103,7 +92,7 @@ export default function Menu() {
                         <li className="dropdown-item d-flex justify-content-end">
                           <button
                             className="nav-link p-0 cursor-pointer"
-                            onClick={logout}
+                            onClick={handleLogout}
                           >
                             <i className="bi bi-box-arrow-right px-1" />
                             LOGOUT

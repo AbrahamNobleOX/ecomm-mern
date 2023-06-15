@@ -14,7 +14,7 @@ export default function Footer() {
                     alt="Logo"
                     width={30}
                     height={24}
-                    className="me-2"
+                    className="me-1"
                   />
                   <span className="fs-6">Ecommerce</span>
                 </Link>

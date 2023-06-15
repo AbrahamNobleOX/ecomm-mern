@@ -1,7 +1,7 @@
 import { useAuth } from "../../context/auth";
 import AdminMenu from "../../components/nav/AdminMenu";
 
-export default function AdminDashboard() {
+export default function AdminProduct() {
   // context
   const [auth, setAuth] = useAuth();
 
@@ -14,12 +14,7 @@ export default function AdminDashboard() {
           </div>
           <div className="col-md-10">
             <div className="content">
-              <h1>Welcome to the Dashboard</h1>
-
-              <div>{auth?.user?.name}</div>
-              <div>{auth?.user?.email}</div>
-              <div>Admin</div>
-
+              <h1>Welcome to the Products</h1>
               <p>This is the main content area.</p>
             </div>
           </div>
