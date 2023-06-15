@@ -11,8 +11,7 @@ export default function AdminDashboard() {
       <div className="container-fluid main-content">
         <div className="row">
           <AdminMenu />
-
-          <div className="col-md-10 mt-5 py-5">
+          <div className="container col-md-9 px-4 py-2">
             <div className="content">
               <h1>Welcome to the Dashboard</h1>
 

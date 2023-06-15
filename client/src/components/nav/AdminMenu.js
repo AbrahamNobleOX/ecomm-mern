@@ -23,7 +23,7 @@ export default function AdminMenu() {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary shadow-sm p-3 rounded fixed-top">
+      <nav className="navbar navbar-expand-lg bg-body-tertiary shadow-lg p-3 rounded ">
         <div className="container">
           <Link className="navbar-brand" to="#">
             <img
@@ -49,9 +49,16 @@ export default function AdminMenu() {
           </button>
         </div>
       </nav>
-      <div className="col-md-2 p-0">
+      <div className="col-md-3 p-0 fixed-top">
         <div className={`sidebar ${isSidebarOpen ? "" : "hide"} py-5`}>
-          <h2 className="mt-5 my-2">Dashboard</h2>
+          <div className="sidebar-header mt-4 my-3">
+            <img
+              src="https://pbs.twimg.com/media/FjU2lkcWYAgNG6d.jpg"
+              alt="Profile"
+              className="profile-image"
+            />
+          </div>
+          {/* <h2 className="mt-5 my-2">Dashboard</h2> */}
           <ul className="nav flex-column">
             <li className="nav-item">
               <NavLink
@@ -97,13 +104,13 @@ export default function AdminMenu() {
               </a>
               <div className="collapse submenu" id="settingsSubMenu">
                 <ul className="nav flex-column">
-                  <li className="nav-item">
+                  <li className="nav-item d-flex justify-content-center">
                     <a className="nav-link" href="#">
                       Password
                     </a>
                   </li>
                   <hr className="my-1" />
-                  <li className="nav-item d-flex justify-content-end">
+                  <li className="nav-item d-flex justify-content-center">
                     <button
                       className="nav-link p-0 cursor-pointer"
                       onClick={handleLogout}
