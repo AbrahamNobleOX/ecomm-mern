@@ -4,22 +4,25 @@ import { useAuth } from "../../context/auth";
 import { useLogout } from "../utils/Logout";
 
 export default function AdminMenu() {
-  // context
-  const [auth, setAuth] = useAuth();
+  // Context: Fetching authentication data
+  const [auth, setAuth] = useAuth(); // Using a custom hook 'useAuth' to get authentication data and its setter function 'setAuth'
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  // State variables
+  const [isOpen, setIsOpen] = useState(false); // Setting initial state of 'isOpen' as false using the 'useState' hook
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true); // Setting initial state of 'isSidebarOpen' as true using the 'useState' hook
 
+  // Function to toggle sub-menu
   const toggleSubMenu = () => {
-    setIsOpen(!isOpen);
+    setIsOpen(!isOpen); // Toggling the value of 'isOpen' using its current state
   };
 
+  // Function to toggle sidebar
   const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
+    setIsSidebarOpen(!isSidebarOpen); // Toggling the value of 'isSidebarOpen' using its current state
   };
 
-  // Logout hook
-  const handleLogout = useLogout();
+  // Logout handler
+  const handleLogout = useLogout(); // Using a custom hook 'useLogout' to handle the logout functionality
 
   return (
     <>
