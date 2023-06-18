@@ -1,4 +1,3 @@
-import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Menu from "./components/nav/Menu";
@@ -22,29 +21,19 @@ const PageNotFound = () => {
   );
 };
 
-const DashboardRoutes = () => {
-  return (
-    <React.Fragment>
-      <Route path="/" element={<Dashboard />} />
-      <Route path="secret" element={<Secret />} />
-    </React.Fragment>
-  );
-};
-
 export default function App() {
   return (
     <BrowserRouter>
       <div className="app-wrapper min-vh-100">
-        <Menu />
+        {/* <Menu /> */}
         <Toaster position="top-right" />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<PrivateRoute />}>
-            <DashboardRoutes />
-            {/* <Route path="user" element={<Dashboard />} />
-            <Route path="secret" element={<Secret />} /> */}
+            <Route path="user" element={<Dashboard />} />
+            <Route path="secret" element={<Secret />} />
           </Route>
           <Route path="/dashboard" element={<AdminRoute />}>
             <Route path="admin" element={<AdminDashboard />} />
