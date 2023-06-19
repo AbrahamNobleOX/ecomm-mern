@@ -1,5 +1,5 @@
 import { NavLink, Link } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/auth";
 import { useLogout } from "../utils/Logout";
 
@@ -20,6 +20,21 @@ export default function AdminMenu() {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen); // Toggling the value of 'isSidebarOpen' using its current state
   };
+
+  // Check screen size and set initial sidebar state
+  useEffect(() => {
+    const handleScreenResize = () => {
+      setIsSidebarOpen(window.innerWidth >= 992); // Adjust the breakpoint as per your requirement
+    };
+
+    handleScreenResize(); // Set initial sidebar state on component mount
+
+    window.addEventListener("resize", handleScreenResize);
+
+    return () => {
+      window.removeEventListener("resize", handleScreenResize);
+    };
+  }, []);
 
   // Logout handler
   const handleLogout = useLogout(); // Using a custom hook 'useLogout' to handle the logout functionality
