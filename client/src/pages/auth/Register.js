@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import Menu from "../../components/nav/Menu";
 import { useAuth } from "../../context/auth";
 import { useNavigate } from "react-router-dom";
 
@@ -61,58 +62,61 @@ export default function Register() {
   };
 
   return (
-    <div className="container main-content mb-5">
-      <div className="">
-        <div className="col-md-6 offset-md-3">
-          <p className="text-uppercase fw-bold fs-3">User Registration</p>
-        </div>
+    <>
+      <Menu />
+      <div className="container main-content mb-5">
+        <div className="">
+          <div className="col-md-6 offset-md-3">
+            <p className="text-uppercase fw-bold fs-3">User Registration</p>
+          </div>
 
-        <form onSubmit={handleSubmit}>
-          <div className="form-floating mb-3 col-md-6 offset-md-3">
-            <input
-              type="text"
-              className="form-control"
-              id="floatingName"
-              placeholder="name"
-              value={name}
-              onChange={handleNameChange}
-              autoFocus
-            />
-            <label htmlFor="floatingName">Full Name</label>
-          </div>
-          <div className="form-floating mb-3 col-md-6 offset-md-3">
-            <input
-              type="email"
-              className="form-control"
-              id="floatingEmail"
-              placeholder="name@example.com"
-              value={email}
-              onChange={handleEmailChange}
-            />
-            <label htmlFor="floatingEmail">Email Address</label>
-          </div>
-          <div className="form-floating mb-3 col-md-6 offset-md-3">
-            <input
-              type="password"
-              className="form-control"
-              id="floatingPassword"
-              placeholder="Password"
-              value={password}
-              onChange={handlePasswordChange}
-            />
-            <label htmlFor="floatingPassword">Password</label>
-          </div>
-          <div className="d-flex flex-row-reverse col-md-6 offset-md-3">
-            <button
-              type="submit"
-              className="btn btn-primary w-25"
-              disabled={name.length === 0}
-            >
-              Register
-            </button>
-          </div>
-        </form>
+          <form onSubmit={handleSubmit}>
+            <div className="form-floating mb-3 col-md-6 offset-md-3">
+              <input
+                type="text"
+                className="form-control"
+                id="floatingName"
+                placeholder="name"
+                value={name}
+                onChange={handleNameChange}
+                autoFocus
+              />
+              <label htmlFor="floatingName">Full Name</label>
+            </div>
+            <div className="form-floating mb-3 col-md-6 offset-md-3">
+              <input
+                type="email"
+                className="form-control"
+                id="floatingEmail"
+                placeholder="name@example.com"
+                value={email}
+                onChange={handleEmailChange}
+              />
+              <label htmlFor="floatingEmail">Email Address</label>
+            </div>
+            <div className="form-floating mb-3 col-md-6 offset-md-3">
+              <input
+                type="password"
+                className="form-control"
+                id="floatingPassword"
+                placeholder="Password"
+                value={password}
+                onChange={handlePasswordChange}
+              />
+              <label htmlFor="floatingPassword">Password</label>
+            </div>
+            <div className="d-flex flex-row-reverse col-md-6 offset-md-3">
+              <button
+                type="submit"
+                className="btn btn-primary w-25"
+                disabled={name.length === 0}
+              >
+                Register
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

@@ -1,7 +1,7 @@
 import { useAuth } from "../../context/auth";
-import AdminMenu from "../../components/nav/AdminMenu";
+import UserMenu from "../../components/nav/UserMenu";
 
-export default function AdminCategory() {
+export default function UserOrders() {
   // context
   const [auth, setAuth] = useAuth();
 
@@ -9,10 +9,10 @@ export default function AdminCategory() {
     <>
       <div className="container-fluid main-content mb-5">
         <div className="row">
-          <AdminMenu />
+          <UserMenu />
           <div className="container col-md-9 px-4 py-2">
             <div className="content">
-              <h1>Welcome to the Admin Category</h1>
+              <h1>Welcome to the User Orders</h1>
               <p>This is the main content area.</p>
             </div>
           </div>

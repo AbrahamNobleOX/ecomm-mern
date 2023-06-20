@@ -1,3 +1,4 @@
+import Menu from "../components/nav/Menu";
 import Jumbotron from "../components/cards/Jumbotron";
 import Cards from "../components/cards/Cards";
 import { useAuth } from "../context/auth";
@@ -6,6 +7,7 @@ export default function Home() {
   const [auth, setAuth] = useAuth();
   return (
     <>
+      <Menu />
       <div className="container main-content mb-5">
         <Jumbotron title="Hello Customers..." />
         <pre>{JSON.stringify(auth, null, 4)}</pre>

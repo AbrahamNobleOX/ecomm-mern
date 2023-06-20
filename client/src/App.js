@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import Menu from "./components/nav/Menu";
 import Home from "./pages/Home";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
@@ -12,6 +11,8 @@ import Secret from "./pages/Secret";
 import AdminRoute from "./components/routes/AdminRoute";
 import AdminCategory from "./pages/admin/Category";
 import AdminProduct from "./pages/admin/Product";
+import UserProfile from "./pages/user/Profile";
+import UserOrders from "./pages/user/Orders";
 
 const PageNotFound = () => {
   return (
@@ -25,7 +26,6 @@ export default function App() {
   return (
     <BrowserRouter>
       <div className="app-wrapper min-vh-100">
-        {/* <Menu /> */}
         <Toaster position="top-right" />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -33,6 +33,8 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<PrivateRoute />}>
             <Route path="user" element={<Dashboard />} />
+            <Route path="user/profile" element={<UserProfile />} />
+            <Route path="user/orders" element={<UserOrders />} />
             <Route path="secret" element={<Secret />} />
           </Route>
           <Route path="/dashboard" element={<AdminRoute />}>
