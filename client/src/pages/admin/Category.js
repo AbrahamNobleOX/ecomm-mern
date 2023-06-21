@@ -3,6 +3,8 @@ import { useAuth } from "../../context/auth";
 import AdminMenu from "../../components/nav/AdminMenu";
 import axios from "axios";
 import toast from "react-hot-toast";
+import CategoryForm from "../../components/forms/CategoryForm";
+import { Modal } from "antd";
 
 export default function AdminCategory() {
   // context
@@ -11,6 +13,9 @@ export default function AdminCategory() {
   // state
   const [name, setName] = useState("");
   const [categories, setCategories] = useState([]);
+  const [visible, setVisible] = useState(false);
+  const [selected, setSelected] = useState(null);
+  const [updatingName, setUpdatingName] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,9 +32,18 @@ export default function AdminCategory() {
         toast.dismiss(toastId);
       }
     } catch (err) {
-      console.log(err);
-      toast.error("Create category failed. Try again.");
-      toast.dismiss(toastId);
+      if (err.message === "Network Error") {
+        // Display a specific error message when the network is disabled
+        toast.error(
+          "Network connection error. Please check your internet connection."
+        );
+        toast.dismiss(toastId);
+      } else {
+        // Display a generic error message for other types of errors
+        console.log(err.message);
+        toast.error("Create category failed. Try again.");
+        toast.dismiss(toastId);
+      }
     }
   };
 
@@ -46,34 +60,85 @@ export default function AdminCategory() {
     }
   };
 
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    const toastId = toast.loading("Updating");
+    try {
+      const { data } = await axios.put(`/category/${selected._id}`, {
+        name: updatingName,
+      });
+      if (data?.error) {
+        toast.error(data.error);
+        toast.dismiss(toastId);
+      } else {
+        toast.success(`"${data.name}" is updated`);
+        setSelected(null);
+        setUpdatingName("");
+        loadCategories();
+        setVisible(false);
+        toast.dismiss(toastId);
+      }
+    } catch (err) {
+      if (err.message === "Network Error") {
+        // Display a specific error message when the network is disabled
+        toast.error(
+          "Network connection error. Please check your internet connection."
+        );
+        toast.dismiss(toastId);
+      } else {
+        // Display a generic error message for other types of errors
+        console.log(err.message);
+        toast.error("Category may already exist. Try again.");
+        toast.dismiss(toastId);
+      }
+    }
+  };
+
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    const toastId = toast.loading("Updating");
+    try {
+      const { data } = await axios.delete(`/category/${selected._id}`);
+      if (data?.error) {
+        toast.error(data.error);
+        toast.dismiss(toastId);
+      } else {
+        toast.success(`"${data.name}" is deleted`);
+        setSelected(null);
+        loadCategories();
+        setVisible(false);
+        toast.dismiss(toastId);
+      }
+    } catch (err) {
+      if (err.message === "Network Error") {
+        // Display a specific error message when the network is disabled
+        toast.error(
+          "Network connection error. Please check your internet connection."
+        );
+        toast.dismiss(toastId);
+      } else {
+        // Display a generic error message for other types of errors
+        console.log(err.message);
+        toast.error("Category may already exist. Try again.");
+        toast.dismiss(toastId);
+      }
+    }
+  };
+
   return (
     <>
       <div className="container-fluid main-content mb-5">
         <div className="row">
           <AdminMenu />
+
           <div className="container col-md-12 d-flex justify-content-center px-5 py-2">
             <div className="content">
               <h1 className="mb-5">Welcome to the Admin Category</h1>
-              <form className="row g-3" onSubmit={handleSubmit}>
-                <div className="col-md-12">
-                  <label htmlFor="inputCategory4" className="form-label">
-                    Category Name
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="inputCategory4"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </div>
-
-                <div className="col-12 d-flex justify-content-end">
-                  <button type="submit" className="btn btn-primary">
-                    Submit
-                  </button>
-                </div>
-              </form>
+              <CategoryForm
+                value={name}
+                setValue={setName}
+                handleSubmit={handleSubmit}
+              />
               {/* <hr className="my-2 mx-0" /> */}
             </div>
           </div>
@@ -84,11 +149,30 @@ export default function AdminCategory() {
                 <button
                   key={c._id}
                   className="btn btn-outline-primary btn-sm m-1"
+                  onClick={() => {
+                    setVisible(true);
+                    setSelected(c);
+                    setUpdatingName(c.name);
+                  }}
                 >
                   {c.name}
                 </button>
               ))}
             </div>
+            <Modal
+              open={visible}
+              onOk={() => setVisible(false)}
+              onCancel={() => setVisible(false)}
+              footer={null}
+            >
+              <CategoryForm
+                value={updatingName}
+                setValue={setUpdatingName}
+                handleSubmit={handleUpdate}
+                buttonText="Update"
+                handleDelete={handleDelete}
+              />
+            </Modal>
           </div>
         </div>
       </div>
