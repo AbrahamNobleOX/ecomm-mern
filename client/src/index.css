@@ -1,5 +1,6 @@
 .active {
-  text-decoration: underline;
+  /* text-decoration: underline; */
+  font-weight: bold;
   text-decoration-thickness: 5px;
   text-decoration-color: #ced4da;
   /* background-color: #ced4da;
@@ -97,4 +98,8 @@
   width: 100px;
   height: 100px;
   border-radius: 50%;
+}
+
+.smaller-icon {
+  font-size: 0.85rem;
 }

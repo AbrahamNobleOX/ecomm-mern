@@ -96,7 +96,7 @@ export default function AdminCategory() {
 
   const handleDelete = async (e) => {
     e.preventDefault();
-    const toastId = toast.loading("Updating");
+    const toastId = toast.loading("Deleting");
     try {
       const { data } = await axios.delete(`/category/${selected._id}`);
       if (data?.error) {
@@ -158,21 +158,22 @@ export default function AdminCategory() {
                   {c.name}
                 </button>
               ))}
+
+              <Modal
+                open={visible}
+                onOk={() => setVisible(false)}
+                onCancel={() => setVisible(false)}
+                footer={null}
+              >
+                <CategoryForm
+                  value={updatingName}
+                  setValue={setUpdatingName}
+                  handleSubmit={handleUpdate}
+                  buttonText="Update"
+                  handleDelete={handleDelete}
+                />
+              </Modal>
             </div>
-            <Modal
-              open={visible}
-              onOk={() => setVisible(false)}
-              onCancel={() => setVisible(false)}
-              footer={null}
-            >
-              <CategoryForm
-                value={updatingName}
-                setValue={setUpdatingName}
-                handleSubmit={handleUpdate}
-                buttonText="Update"
-                handleDelete={handleDelete}
-              />
-            </Modal>
           </div>
         </div>
       </div>
