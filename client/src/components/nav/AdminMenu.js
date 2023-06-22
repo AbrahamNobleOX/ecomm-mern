@@ -101,6 +101,13 @@ export default function AdminMenu() {
               </NavLink>
             </li>
             <hr className="my-1"></hr>
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/dashboard/admin/products">
+                Products
+                <span className="badge bg-danger mx-2">1</span>
+              </NavLink>
+            </li>
+            <hr className="my-1"></hr>
             <li className="list-group-item">
               <a
                 className="nav-link"
