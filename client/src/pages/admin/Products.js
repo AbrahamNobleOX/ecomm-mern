@@ -30,41 +30,43 @@ export default function AdminProducts() {
       <div className="container-fluid main-content">
         <div className="row">
           <AdminMenu />
-          <div className="container col-md-9 px-4 py-2">
+          <div className="container col-md-6 px-5 py-2">
             <div className="content">
-              <h1>Welcome to the Product List</h1>
-              {products?.map((p) => (
-                <Link
-                  key={p._id}
-                  to={`/dashboard/admin/product/update/${p.slug}`}
-                >
-                  <div className="card mb-3">
-                    <div className="row g-0">
-                      <div className="col-md-4">
+              <h1 className="mb-5 d-flex justify-content-center">
+                Welcome to the Product List
+              </h1>
+              <div className="row row-cols-1 row-cols-md-3 g-4">
+                {products?.map((p) => (
+                  <Link
+                    className="non-text-decoration"
+                    key={p._id}
+                    to={`/dashboard/admin/product/update/${p.slug}`}
+                  >
+                    <div className="col">
+                      <div className="card h-100">
                         <img
                           src={`${process.env.REACT_APP_API}/product/photo/${p._id}`}
                           alt={p.name}
-                          className="img img-fluid rounded-start"
+                          className="card-img-top"
+                          width="250px"
+                          height="250px"
                         />
-                      </div>
-
-                      <div className="col-md-8">
                         <div className="card-body">
                           <h5 className="card-title">{p.name}</h5>
                           <p className="card-text">{p.description}</p>
-                          <p className="card-text">
-                            <small className="text-muted">
-                              {moment(p.createdAt).format(
-                                "MMMM Do YYYY, h:mm:ss a"
-                              )}
-                            </small>
-                          </p>
+                        </div>
+                        <div className="card-footer">
+                          <small className="text-body-secondary">
+                            {moment(p.createdAt).format(
+                              "MMMM Do YYYY, h:mm:ss a"
+                            )}
+                          </small>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         </div>
