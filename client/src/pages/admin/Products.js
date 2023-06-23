@@ -45,7 +45,9 @@ export default function AdminProducts() {
                     <div className="col">
                       <div className="card h-100">
                         <img
-                          src={`${process.env.REACT_APP_API}/product/photo/${p._id}`}
+                          src={`${process.env.REACT_APP_API}/product/photo/${
+                            p._id
+                          }?${new Date().getTime()}`}
                           alt={p.name}
                           className="card-img-top"
                           width="250px"
