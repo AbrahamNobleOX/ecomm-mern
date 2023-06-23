@@ -48,7 +48,7 @@ export default function AdminProduct() {
       productData.append("category", category);
       productData.append("shipping", shipping);
       productData.append("quantity", quantity);
-      console.log(...productData);
+      // console.log(...productData);
       const { data } = await axios.post("/product", productData);
       if (data?.error) {
         toast.error(data.error);

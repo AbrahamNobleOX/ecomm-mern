@@ -25,7 +25,7 @@ export default function CategoryForm({
           {buttonText}
         </button>
         {handleDelete && (
-          <button onClick={handleDelete} className="btn btn-danger mx-2">
+          <button onClick={handleDelete} className="btn btn-danger ms-2">
             Delete
           </button>
         )}

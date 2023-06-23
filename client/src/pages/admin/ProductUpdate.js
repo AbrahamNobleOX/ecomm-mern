@@ -5,6 +5,7 @@ import axios from "axios";
 import { Select } from "antd";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
+import { Modal } from "antd";
 
 export default function AdminProductUpdate() {
   // context
@@ -20,6 +21,7 @@ export default function AdminProductUpdate() {
   const [shipping, setShipping] = useState("");
   const [quantity, setQuantity] = useState("");
   const [id, setId] = useState("");
+  const [visible, setVisible] = useState(false);
 
   // hook
   const navigate = useNavigate();
@@ -82,6 +84,22 @@ export default function AdminProductUpdate() {
     } catch (err) {
       console.log(err);
       toast.error("Product create failed. Try again.");
+      toast.dismiss(toastId);
+    }
+  };
+
+  const handleDelete = async (req, res) => {
+    const toastId = toast.loading("Deleting");
+    try {
+      setVisible(false);
+      const { data } = await axios.delete(`/product/${id}`);
+      // console.log(data);
+      toast.success(`"${data.removed.name}" is deleted`);
+      toast.dismiss(toastId);
+      navigate("/dashboard/admin/products");
+    } catch (err) {
+      console.log(err);
+      toast.error("Delete failed. Try again.");
       toast.dismiss(toastId);
     }
   };
@@ -245,9 +263,25 @@ export default function AdminProductUpdate() {
               </div>
 
               <div className="col-12 d-flex justify-content-end">
-                <button onClick={handleSubmit} className="btn btn-primary mb-5">
+                <button onClick={handleSubmit} className="btn btn-primary">
                   Update
                 </button>
+                <button
+                  onClick={() => {
+                    setVisible(true);
+                  }}
+                  className="btn btn-danger ms-2"
+                >
+                  Delete
+                </button>
+
+                <Modal
+                  open={visible}
+                  onOk={handleDelete}
+                  onCancel={() => setVisible(false)}
+                >
+                  Are you sure you want to delete this?
+                </Modal>
               </div>
             </div>
           </div>
