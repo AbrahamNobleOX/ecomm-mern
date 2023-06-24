@@ -94,9 +94,14 @@ export default function AdminProductUpdate() {
       setVisible(false);
       const { data } = await axios.delete(`/product/${id}`);
       // console.log(data);
-      toast.success(`"${data.removed.name}" is deleted`);
-      toast.dismiss(toastId);
-      navigate("/dashboard/admin/products");
+      if (data?.error) {
+        toast.error(data.error);
+        toast.dismiss(toastId);
+      } else {
+        toast.success(`"${data.removed.name}" is deleted`);
+        toast.dismiss(toastId);
+        navigate("/dashboard/admin/products");
+      }
     } catch (err) {
       console.log(err);
       toast.error("Delete failed. Try again.");
