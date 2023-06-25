@@ -182,3 +182,38 @@ export const update = async (req, res) => {
     return res.status(400).json(err.message);
   }
 };
+
+export const filteredProducts = async (req, res) => {
+  try {
+    // Get the `checked` and `radio` values from the request body.
+    const { checked, radio } = req.body;
+
+    // Prepare an object to store the filtering criteria.
+    const args = {};
+
+    // If there are categories checked, set the `category` property of `args` to the checked categories.
+    if (checked.length > 0) {
+      args.category = checked;
+    }
+
+    // If there is a price range specified, set the `price` property of `args` accordingly. gte and lte means greater than or equal to and less than or equal to respectively.
+    if (radio.length) {
+      args.price = { $gte: radio[0], $lte: radio[1] };
+    }
+
+    // Output the filtering criteria to the console.
+    console.log("Filtering criteria:", args);
+
+    // Search for products that match the filtering criteria.
+    const products = await Product.find(args);
+
+    // Output the number of filtered products found.
+    console.log("Filtered products count:", products.length);
+
+    // Send the filtered products as a JSON response.
+    res.json(products);
+  } catch (err) {
+    // Log any errors that occur during the process.
+    console.log(err);
+  }
+};
