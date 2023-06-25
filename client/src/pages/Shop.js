@@ -117,9 +117,21 @@ export default function Shop() {
                 ))}
               </Radio.Group>
             </div>
+
+            <div className="p-5 pt-0">
+              <button
+                className="btn btn-outline-secondary col-12"
+                onClick={() => window.location.reload()}
+              >
+                Reset
+              </button>
+            </div>
           </div>
 
-          <div className="col-md-9">
+          <div
+            className="col-md-9"
+            style={{ height: "100vh", overflow: "scroll" }}
+          >
             <h2 className="p-3 mb-5 h4 bg-light text-center">
               {products?.length} Products
             </h2>
