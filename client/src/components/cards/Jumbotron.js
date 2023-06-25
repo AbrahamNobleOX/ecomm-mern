@@ -3,7 +3,7 @@ export default function Jumbotron({
   subTitle = "Welcome to our E-commerce Store!",
 }) {
   return (
-    <div className="container rounded-4 p-5 bg-light shadow-lg mb-5">
+    <div className="container rounded-4 p-5 bg-light shadow-lg mb-5 jumbotron">
       {/* <img
         src="https://th.bing.com/th/id/R.e1707c345d5ac10c80a674030e606643?rik=pOsTg5KBoLuNvw&riu=http%3a%2f%2fwww.snut.fr%2fwp-content%2fuploads%2f2015%2f08%2fimage-de-paysage.jpg&ehk=1O5SWKkGpZ8yU%2b%2fAnLXG1v8k6BKxgyiXgHbOWBW1ir0%3d&risl=1&pid=ImgRaw&r=0"
         className="col-md-4 float-md-end mb-3 ms-md-3"

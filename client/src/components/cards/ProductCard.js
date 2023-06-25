@@ -1,15 +1,57 @@
 import moment from "moment";
+import { Badge } from "antd";
 
 export default function ProductCard({ p }) {
   return (
     <>
-      <div className="col-sm-4 mb-3 mb-sm-4" key={p._id}>
-        <div className="card">
-          <img src="" className="card-img-top" alt="..." />
+      <div className="col-md-3 mb-4">
+        <div className="card h-100 hoverable">
+          <Badge.Ribbon text={`${p?.sold} sold`} color="red">
+            <Badge.Ribbon
+              text={`${
+                p?.quantity >= 1
+                  ? `${p?.quantity - p?.sold} in stock`
+                  : "Out of stock"
+              }`}
+              placement="start"
+              color="green"
+            >
+              <img
+                className="card-img-top"
+                src={`${process.env.REACT_APP_API}/product/photo/${p._id}`}
+                alt={p.name}
+                style={{ height: "300px", objectFit: "cover" }}
+              />
+            </Badge.Ribbon>
+          </Badge.Ribbon>
           <div className="card-body">
-            <p className="card-text">{p.name}</p>
-            <p className="card-text">{moment(p.createdAt).fromNow()}</p>
-            <p className="card-text">{p.sold} sold</p>
+            <h5>{p?.name}</h5>
+            <h4 className="fw-bold">
+              {p?.price?.toLocaleString("en-GB", {
+                style: "currency",
+                currency: "GBP",
+              })}
+            </h4>
+            <p className="card-text">{p?.description?.substring(0, 60)}...</p>
+
+            {/* <p className="card-text">{moment(p.createdAt).fromNow()}</p>
+            <p className="card-text">{p.sold} sold</p> */}
+          </div>
+
+          <div className="d-flex justify-content-between">
+            <button
+              className="btn btn-primary col card-button"
+              style={{ borderBottomLeftRadius: "5px" }}
+            >
+              View Product
+            </button>
+
+            <button
+              className="btn btn-outline-primary col card-button"
+              style={{ borderBottomRightRadius: "5px" }}
+            >
+              Add to Cart
+            </button>
           </div>
         </div>
       </div>

@@ -42,7 +42,7 @@ export default function AdminProducts() {
                     key={p._id}
                     to={`/dashboard/admin/product/update/${p.slug}`}
                   >
-                    <div className="col">
+                    <div className="col mb-3">
                       <div className="card h-100">
                         <img
                           src={`${process.env.REACT_APP_API}/product/photo/${
@@ -50,8 +50,7 @@ export default function AdminProducts() {
                           }?${new Date().getTime()}`}
                           alt={p.name}
                           className="card-img-top"
-                          width="250px"
-                          height="250px"
+                          style={{ height: "250px", objectFit: "cover" }}
                         />
                         <div className="card-body">
                           <h5 className="card-title">{p.name}</h5>

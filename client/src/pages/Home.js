@@ -48,7 +48,7 @@ export default function Home() {
           <div className="row">
             <h2 className="mb-3">New Arrivals</h2>
             {products?.map((p) => (
-              <ProductCard p={p} />
+              <ProductCard key={p._id} p={p} />
             ))}
           </div>
         </div>
@@ -57,7 +57,7 @@ export default function Home() {
           <div className="row">
             <h2 className="mb-3">Best Sellers</h2>
             {sortedBySold?.map((p) => (
-              <ProductCard p={p} />
+              <ProductCard key={p._id} p={p} />
             ))}
           </div>
         </div>

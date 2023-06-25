@@ -42,6 +42,11 @@ export default function Menu() {
                   <i className="bi bi-house-door"></i> HOME
                 </NavLink>
               </li>
+              <li className="nav-item">
+                <NavLink className="nav-link" aria-current="page" to="/shop">
+                  <i className="bi bi-house-door"></i> SHOP
+                </NavLink>
+              </li>
               {!auth?.user ? (
                 // Render login and register links if auth.user null
                 <>
