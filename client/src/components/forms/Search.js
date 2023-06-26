@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSearch } from "../../context/search";
 
@@ -31,6 +31,18 @@ export default function Search() {
     searchProducts(); // Trigger the search when the form is submitted
   };
 
+  const handleInputChange = (e) => {
+    const keyword = e.target.value;
+    setValues({ ...values, keyword });
+    if (keyword.trim() === "") {
+      const initialSearchState = {
+        keyword: "",
+        results: [],
+      };
+      setValues(initialSearchState);
+    }
+  };
+
   return (
     <form className="d-flex" role="search" onSubmit={handleSubmit}>
       <div className="input-group mb-3">
@@ -40,7 +52,8 @@ export default function Search() {
           placeholder="Search..."
           aria-label="Search"
           aria-describedby="basic-addon1"
-          onChange={(e) => setValues({ ...values, keyword: e.target.value })}
+          // onChange={(e) => setValues({ ...values, keyword: e.target.value })}
+          onChange={handleInputChange}
           value={values.keyword}
         />
         <button
@@ -52,6 +65,19 @@ export default function Search() {
           {values.results.length}
         </button>
       </div>
+      {values.results.length > 0 && (
+        <div className="dropdown-menu mt-5" style={{ display: "block" }}>
+          {values.results.map((result) => (
+            <a
+              key={result._id}
+              href={`/products/${result._id}`}
+              className="dropdown-item"
+            >
+              {result.name}
+            </a>
+          ))}
+        </div>
+      )}
     </form>
   );
 }
