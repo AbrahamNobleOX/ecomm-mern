@@ -44,7 +44,8 @@ export default function Menu() {
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" aria-current="page" to="/shop">
-                  <i class="bi bi-shop"></i> SHOP
+                  <i className="bi bi-shop" />
+                  SHOP
                 </NavLink>
               </li>
               {!auth?.user ? (

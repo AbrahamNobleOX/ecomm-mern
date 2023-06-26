@@ -7,12 +7,16 @@ import axios from "axios";
 export default function Home() {
   // Define a state variable called 'products' and a function 'setProducts' to update it, initialize it as an empty array
   const [products, setProducts] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   // Run the effect only once when the component is initially rendered
   // Call the 'loadProducts' function to fetch the product data
   // The empty dependency array [] ensures it runs only once
   useEffect(() => {
     loadProducts();
+    getTotal();
   }, []);
 
   // Define an asynchronous function 'loadProducts' responsible for fetching the product data from an API
@@ -20,7 +24,7 @@ export default function Home() {
     try {
       // Send an HTTP GET request to the '/products' endpoint using Axios
       // Extract the response data using destructuring assignment ({ data })
-      const { data } = await axios.get("/products");
+      const { data } = await axios.get(`/list-products/${page}`);
 
       // Update the 'products' state with the fetched data
       setProducts(data);
@@ -37,6 +41,34 @@ export default function Home() {
   // Sort the 'arr' array based on the 'sold' property of each object
   // The comparison function (a, b) => (a.sold < b.sold ? 1 : -1) sorts in descending order of 'sold' property
   const sortedBySold = arr?.sort((a, b) => (a.sold < b.sold ? 1 : -1));
+
+  const getTotal = async () => {
+    try {
+      const { data } = await axios.get("/products-count");
+      setTotal(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    if (page === 1) {
+      return;
+    }
+    loadMore();
+  }, [page]);
+
+  const loadMore = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get(`/list-products/${page}`);
+      setProducts([...products, ...data]);
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -60,6 +92,21 @@ export default function Home() {
               <ProductCard key={p._id} p={p} />
             ))}
           </div>
+        </div>
+
+        <div className="container text-center p-5">
+          {products && products.length < total && (
+            <button
+              className="btn btn-primary col-md-3"
+              disabled={loading}
+              onClick={(e) => {
+                e.preventDefault();
+                setPage(page + 1);
+              }}
+            >
+              {loading ? "Loading..." : "Load more"}
+            </button>
+          )}
         </div>
       </div>
     </>

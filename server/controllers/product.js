@@ -217,3 +217,39 @@ export const filteredProducts = async (req, res) => {
     console.log(err);
   }
 };
+
+export const productsCount = async (req, res) => {
+  try {
+    const total = await Product.find({}).estimatedDocumentCount();
+    res.json(total);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const listProducts = async (req, res) => {
+  try {
+    // Number of products to display per page
+    const perPage = 2;
+
+    // Current page number obtained from the request parameters
+    const page = req.params.page ? req.params.page : 1;
+
+    // Finding products in the database
+    const products = await Product.find({})
+      // Excluding the "photo" field from the selected product data
+      .select("-photo")
+      // Skipping the appropriate number of products based on the page number
+      .skip((page - 1) * perPage)
+      // Limiting the number of products per page
+      .limit(perPage)
+      // Sorting the products by their creation date in descending order
+      .sort({ createdAt: -1 });
+
+    // Sending the retrieved products as a JSON response
+    res.json(products);
+  } catch (err) {
+    // Handling any errors that occur and logging them to the console
+    console.log(err);
+  }
+};

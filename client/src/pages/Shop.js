@@ -83,6 +83,12 @@ export default function Shop() {
     setChecked(all);
   };
 
+  const resetFilters = () => {
+    setChecked([]); // Reset the checked state to an empty array
+    setRadio([]); // Reset the radio state to an empty array
+    loadProducts();
+  };
+
   return (
     <>
       <Menu />
@@ -98,6 +104,7 @@ export default function Shop() {
               {categories?.map((c) => (
                 <Checkbox
                   key={c._id}
+                  checked={checked.includes(c._id)}
                   onChange={(e) => handleCheck(e.target.checked, c._id)}
                 >
                   {c.name}
@@ -109,7 +116,10 @@ export default function Shop() {
               Filter by Price
             </h2>
             <div className="row p-5">
-              <Radio.Group onChange={(e) => setRadio(e.target.value)}>
+              <Radio.Group
+                onChange={(e) => setRadio(e.target.value)}
+                value={radio}
+              >
                 {prices?.map((p) => (
                   <div key={p._id} style={{ marginLeft: "8px" }}>
                     <Radio value={p.array}>{p.name}</Radio>
@@ -119,9 +129,16 @@ export default function Shop() {
             </div>
 
             <div className="p-5 pt-0">
-              <button
+              {/* <button
                 className="btn btn-outline-secondary col-12"
                 onClick={() => window.location.reload()}
+              >
+                Reset
+              </button> */}
+
+              <button
+                className="btn btn-outline-primary col-12"
+                onClick={resetFilters}
               >
                 Reset
               </button>
