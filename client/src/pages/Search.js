@@ -8,7 +8,6 @@ export default function Search() {
   return (
     <>
       <Menu />
-
       <div className="container main-content mb-5">
         <div className="row">
           <div className="col-md-12">

@@ -47,7 +47,7 @@ export default function Search() {
         results: [],
       };
       setValues(initialSearchState);
-      navigate("/shop");
+      // navigate("/shop");
     }
   };
 
