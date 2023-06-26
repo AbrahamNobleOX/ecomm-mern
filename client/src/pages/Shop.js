@@ -10,16 +10,20 @@ export default function Shop() {
   const [products, setProducts] = useState([]);
   const [checked, setChecked] = useState([]);
   const [radio, setRadio] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!checked.length || !radio.length) {
       loadProducts();
+      getTotal();
     }
   }, []);
 
   const loadProducts = async () => {
     try {
-      const { data } = await axios.get("/products");
+      const { data } = await axios.get(`/list-products/${page}`);
       setProducts(data);
     } catch (err) {
       console.log(err);
@@ -34,6 +38,7 @@ export default function Shop() {
 
   const loadFilteredProducts = async () => {
     try {
+      setProducts([]);
       const { data } = await axios.post("/filtered-products", {
         checked,
         radio,
@@ -86,7 +91,40 @@ export default function Shop() {
   const resetFilters = () => {
     setChecked([]); // Reset the checked state to an empty array
     setRadio([]); // Reset the radio state to an empty array
+    setTotal(0);
+    setPage(1);
+    setLoading(false);
+    // setProducts([]);
     loadProducts();
+    getTotal();
+  };
+
+  const getTotal = async () => {
+    try {
+      const { data } = await axios.get("/products-count");
+      setTotal(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    if (page === 1) {
+      return;
+    }
+    loadMore();
+  }, [page]);
+
+  const loadMore = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get(`/list-products/${page}`);
+      setProducts([...products, ...data]);
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+    }
   };
 
   return (
@@ -157,6 +195,24 @@ export default function Shop() {
               {products?.map((p) => (
                 <ProductCard key={p._id} p={p} />
               ))}
+            </div>
+
+            <div className="container text-center p-5">
+              {products &&
+                products.length < total &&
+                checked.length === 0 &&
+                radio.length === 0 && (
+                  <button
+                    className="btn btn-primary col-md-3"
+                    disabled={loading}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setPage(page + 1);
+                    }}
+                  >
+                    {loading ? "Loading..." : "Load more"}
+                  </button>
+                )}
             </div>
           </div>
         </div>
