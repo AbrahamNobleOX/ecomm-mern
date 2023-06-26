@@ -52,7 +52,6 @@ export default function Search() {
           placeholder="Search..."
           aria-label="Search"
           aria-describedby="basic-addon1"
-          // onChange={(e) => setValues({ ...values, keyword: e.target.value })}
           onChange={handleInputChange}
           value={values.keyword}
         />
@@ -67,13 +66,14 @@ export default function Search() {
       </div>
       {values.results.length > 0 && (
         <div className="dropdown-menu mt-5" style={{ display: "block" }}>
-          {values.results.map((result) => (
+          {values.results.map((p) => (
             <a
-              key={result._id}
-              href={`/products/${result._id}`}
+              key={p._id}
+              href={`/products/${p._id}`}
               className="dropdown-item"
             >
-              {result.name}
+              <i className="bi bi-film px-2"></i>
+              {p.name}
             </a>
           ))}
         </div>
