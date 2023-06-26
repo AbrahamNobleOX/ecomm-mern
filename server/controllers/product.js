@@ -274,3 +274,24 @@ export const productsSearch = async (req, res) => {
     console.log(err);
   }
 };
+
+export const relatedProducts = async (req, res) => {
+  try {
+    // Destructure the `productId` and `categoryId` from `req.params`
+    const { productId, categoryId } = req.params;
+
+    // Find related products based on the category and exclude the current product
+    const related = await Product.find({
+      category: categoryId,
+      _id: { $ne: productId }, // using the $ne (not equal) operator.
+    })
+      .select("-photo") // Exclude the "photo" field from the retrieved documents
+      .populate("category") // Populate the "category" field with the corresponding category document
+      .limit(2); // Limit the number of related products to 3
+
+    // Respond with the related products in JSON format
+    res.json(related);
+  } catch (err) {
+    console.log(err);
+  }
+};

@@ -20,7 +20,9 @@ export default function Search() {
             </div>
             <div className="row">
               {values?.results?.map((p) => (
-                <ProductCard key={p._id} p={p} />
+                <div key={p._id} className="col-md-3 mb-4">
+                  <ProductCard p={p} />
+                </div>
               ))}
             </div>
           </div>

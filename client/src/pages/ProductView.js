@@ -1,12 +1,25 @@
 import { useState, useEffect } from "react";
+import moment from "moment";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Badge } from "antd";
 import Menu from "../components/nav/Menu";
+import {
+  FaDollarSign,
+  FaProjectDiagram,
+  FaRegClock,
+  FaCheck,
+  FaTimes,
+  FaTruckMoving,
+  FaWarehouse,
+  FaRocket,
+} from "react-icons/fa";
+import ProductCard from "../components/cards/ProductCard";
 
 export default function ProductView() {
   // state
   const [product, setProduct] = useState({});
+  const [related, setRelated] = useState([]);
   // hooks
   const params = useParams();
 
@@ -20,8 +33,20 @@ export default function ProductView() {
     try {
       const { data } = await axios.get(`/product/${params.slug}`);
       setProduct(data);
+      loadRelated(data._id, data.category._id);
     } catch (err) {
       console.log(err.message);
+    }
+  };
+
+  const loadRelated = async (productId, categoryId) => {
+    try {
+      const { data } = await axios.get(
+        `/related-products/${productId}/${categoryId}`
+      );
+      setRelated(data);
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -29,9 +54,9 @@ export default function ProductView() {
     <>
       <Menu />
       <div className="container main-content mb-5">
-        <div className="row">
+        <div className="row d-flex justify-content-center">
           <div className="col-md-9">
-            <div className="card mb-3 hoverable">
+            <div className="card mb-5">
               <Badge.Ribbon text={`${product?.sold} sold`} color="red">
                 <Badge.Ribbon
                   text={`${
@@ -60,16 +85,42 @@ export default function ProductView() {
               </Badge.Ribbon>
 
               <div className="card-body">
-                <h5>{product?.name}</h5>
+                <h1 className="fw-bold">{product?.name}</h1>
+                <p className="card-text lead">{product?.description}</p>
+              </div>
 
-                <h4 className="fw-bold">
-                  {product?.price?.toLocaleString("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                  })}
-                </h4>
+              <div className="d-flex justify-content-between lead p-5 bg-light fw-bold">
+                <div>
+                  <p>
+                    <FaDollarSign /> Price:
+                    {product?.price?.toLocaleString("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    })}
+                  </p>
 
-                <p className="card-text">{product?.description}</p>
+                  <p>
+                    <FaProjectDiagram /> Category: {product?.category?.name}
+                  </p>
+
+                  <p>
+                    <FaRegClock /> Added: {moment(product.createdAt).fromNow()}
+                  </p>
+
+                  <p>
+                    {product?.quantity > 0 ? <FaCheck /> : <FaTimes />}
+                    {product?.quantity > 0 ? "In Stock" : "Out of Stock"}
+                  </p>
+
+                  <p>
+                    <FaWarehouse /> Available
+                    {product?.quantity - product?.sold}
+                  </p>
+
+                  <p>
+                    <FaRocket /> Sold {product.sold}
+                  </p>
+                </div>
               </div>
 
               <button
@@ -83,6 +134,13 @@ export default function ProductView() {
 
           <div className="col-md-3">
             <h2>Related Products</h2>
+            <hr className="mb-4" />
+            {related?.length < 1 && <p>Nothing found</p>}
+            {related?.map((p) => (
+              <div key={p._id} className="mb-4">
+                <ProductCard p={p} />
+              </div>
+            ))}
           </div>
         </div>
       </div>

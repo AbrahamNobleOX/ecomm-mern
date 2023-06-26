@@ -193,7 +193,9 @@ export default function Shop() {
 
             <div className="row">
               {products?.map((p) => (
-                <ProductCard key={p._id} p={p} />
+                <div key={p._id} className="col-md-4 mb-4">
+                  <ProductCard p={p} />
+                </div>
               ))}
             </div>
 

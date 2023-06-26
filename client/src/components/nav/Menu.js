@@ -2,13 +2,17 @@ import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 import { useLogout } from "../utils/Logout";
 import Search from "../forms/Search";
+import useCategory from "../../hooks/useCategory";
 
 export default function Menu() {
-  // custom hook
+  // context
   const [auth, setAuth] = useAuth();
 
-  // Logout hook
+  // hooks
   const handleLogout = useLogout();
+  const categories = useCategory();
+
+  console.log("categories in menu => ", categories);
 
   return (
     <>
@@ -48,6 +52,33 @@ export default function Menu() {
                   <i className="bi bi-shop"></i> SHOP
                 </NavLink>
               </li>
+              <ul className="navbar-nav">
+                <li className="nav-item dropdown">
+                  <button
+                    className="nav-link dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <i class="bi bi-tags px-1"></i>
+                    Categories
+                  </button>
+                  <ul
+                    className="dropdown-menu"
+                    // style={{ height: "300px", overflow: "scroll" }}
+                  >
+                    {categories?.map((c) => (
+                      <li className="dropdown-item">
+                        <NavLink
+                          className="d-flex nav-link p-0 justify-content-end"
+                          to={`/category/${c.slug}`}
+                        >
+                          {c.name}
+                        </NavLink>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              </ul>
               {!auth?.user ? (
                 // Render login and register links if auth.user null
                 <>
