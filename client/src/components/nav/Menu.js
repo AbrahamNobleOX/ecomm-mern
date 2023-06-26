@@ -1,6 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 import { useLogout } from "../utils/Logout";
+import Search from "../forms/Search";
 
 export default function Menu() {
   // custom hook
@@ -109,20 +110,8 @@ export default function Menu() {
                 </>
               )}
             </ul>
-            <form className="d-flex" role="search">
-              <div className="input-group mb-3">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Search..."
-                  aria-label="Searc"
-                  aria-describedby="basic-addon1"
-                />
-                <span className="input-group-text" id="basic-addon1">
-                  <i className="bi bi-search" />
-                </span>
-              </div>
-            </form>
+
+            <Search />
           </div>
         </div>
       </nav>

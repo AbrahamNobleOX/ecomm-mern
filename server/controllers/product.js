@@ -253,3 +253,24 @@ export const listProducts = async (req, res) => {
     console.log(err);
   }
 };
+
+export const productsSearch = async (req, res) => {
+  try {
+    // Extract the 'keyword' parameter from the request parameters
+    const { keyword } = req.params;
+
+    // Find products that match the keyword in either the 'name' or 'description' fields
+    const results = await Product.find({
+      $or: [
+        { name: { $regex: keyword, $options: "i" } },
+        { description: { $regex: keyword, $options: "i" } },
+      ],
+    }).select("-photo");
+
+    // Respond with the search results in JSON format
+    res.json(results);
+  } catch (err) {
+    // If an error occurs, log the error to the console
+    console.log(err);
+  }
+};

@@ -118,6 +118,11 @@
   border-radius: 12px;
 }
 
+.form-control {
+  box-shadow: none !important;
+}
+
+/* jumbotron animation color css */
 .jumbotron {
   width: 30wh;
   /* height: 30vh; */
