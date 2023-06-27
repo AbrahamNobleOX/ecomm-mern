@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import moment from "moment";
 import axios from "axios";
+import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { Badge } from "antd";
 import Menu from "../components/nav/Menu";
@@ -10,16 +11,20 @@ import {
   FaRegClock,
   FaCheck,
   FaTimes,
-  FaTruckMoving,
   FaWarehouse,
   FaRocket,
 } from "react-icons/fa";
 import ProductCard from "../components/cards/ProductCard";
+import { useCart } from "../context/cart";
 
 export default function ProductView() {
   // state
   const [product, setProduct] = useState({});
   const [related, setRelated] = useState([]);
+
+  // context
+  const [cart, setCart] = useCart();
+
   // hooks
   const params = useParams();
 
@@ -126,6 +131,10 @@ export default function ProductView() {
               <button
                 className="btn btn-outline-primary col card-button"
                 style={{ borderBottomRightRadius: "5px" }}
+                onClick={() => {
+                  setCart([...cart, product]);
+                  toast.success("Added to Cart");
+                }}
               >
                 Add to Cart
               </button>

@@ -1,12 +1,15 @@
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 import { useLogout } from "../utils/Logout";
+import { useCart } from "../../context/cart";
 import Search from "../forms/Search";
 import useCategory from "../../hooks/useCategory";
+import { Badge } from "antd";
 
 export default function Menu() {
   // context
   const [auth, setAuth] = useAuth();
+  const [cart, setCart] = useCart();
 
   // hooks
   const handleLogout = useLogout();
@@ -16,7 +19,7 @@ export default function Menu() {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary mb-5 shadow-lg p-3 rounded">
+      <nav className="navbar navbar-expand-lg bg-body-tertiary mb-5 shadow-lg p-3 rounded sticky-top">
         <div className="container">
           <Link className="navbar-brand" to="#">
             <img
@@ -43,12 +46,12 @@ export default function Menu() {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <NavLink className="nav-link" aria-current="page" to="/">
+                <NavLink className="nav-link" to="/">
                   <i className="bi bi-house-door"></i> HOME
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" aria-current="page" to="/shop">
+                <NavLink className="nav-link" to="/shop">
                   <i className="bi bi-shop"></i> SHOP
                 </NavLink>
               </li>
@@ -60,7 +63,7 @@ export default function Menu() {
                     aria-expanded="false"
                   >
                     <i className="bi bi-tags px-1" />
-                    Categories
+                    CATEGORIES
                   </button>
                   <ul
                     className="dropdown-menu"
@@ -117,7 +120,7 @@ export default function Menu() {
                         aria-expanded="false"
                       >
                         <i className="bi bi-person-circle px-1" />
-                        {auth?.user?.name}
+                        {auth?.user?.name.toUpperCase()}
                       </button>
                       <ul className="dropdown-menu">
                         <li className="dropdown-item">
@@ -148,27 +151,29 @@ export default function Menu() {
                   </ul>
                 </>
               )}
+              <li className="nav-item">
+                {/* <Badge
+                  count={cart?.length >= 1 ? cart.length : 0}
+                  offset={[-5, 11]}
+                  showZero={true}
+                >
+                  <NavLink className="nav-link" to="/cart">
+                    CART
+                  </NavLink>
+                </Badge> */}
+                <NavLink className="nav-link position-relative" to="/cart">
+                  <i class="bi bi-cart4 px-1"></i>CART
+                  <span className="badge bg-danger position-absolute top-0">
+                    {cart?.length >= 1 ? cart.length : 0}
+                  </span>
+                </NavLink>
+              </li>
             </ul>
 
             <Search />
           </div>
         </div>
       </nav>
-
-      {/* <nav className="navbar fixed-bottom bg-body-tertiary shadow-lg">
-        <div className="container">
-          <Link className="navbar-brand" to="#">
-            <img
-              src="https://getbootstrap.com//docs/5.3/assets/brand/bootstrap-logo.svg"
-              alt="Logo"
-              width={30}
-              height={24}
-              className="d-inline-block align-text-top"
-            />
-            Ecommerce
-          </Link>
-        </div>
-      </nav> */}
     </>
   );
 }

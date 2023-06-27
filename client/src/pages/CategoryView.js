@@ -6,8 +6,8 @@ import ProductCard from "../components/cards/ProductCard";
 
 export default function CategoryView() {
   // state
-  const [products, setProducts] = useState([]);
   const [category, setCategory] = useState({});
+  const [products, setProducts] = useState([]);
   // hooks
   const navigate = useNavigate();
   const params = useParams();
