@@ -162,7 +162,8 @@ export default function Menu() {
                   </NavLink>
                 </Badge> */}
                 <NavLink className="nav-link position-relative" to="/cart">
-                  <i class="bi bi-cart4 px-1"></i>CART
+                  <i className="bi bi-cart4 px-1" />
+                  CART
                   <span className="badge bg-danger position-absolute top-0">
                     {cart?.length >= 1 ? cart.length : 0}
                   </span>
