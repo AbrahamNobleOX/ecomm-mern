@@ -12,7 +12,7 @@ export default function Menu() {
   const handleLogout = useLogout();
   const categories = useCategory();
 
-  console.log("categories in menu => ", categories);
+  // console.log("categories in menu => ", categories);
 
   return (
     <>
@@ -59,15 +59,23 @@ export default function Menu() {
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    <i class="bi bi-tags px-1"></i>
+                    <i className="bi bi-tags px-1" />
                     Categories
                   </button>
                   <ul
                     className="dropdown-menu"
                     // style={{ height: "300px", overflow: "scroll" }}
                   >
+                    <li className="dropdown-item">
+                      <NavLink
+                        className="d-flex nav-link p-0 justify-content-end"
+                        to="/categories"
+                      >
+                        All Categories
+                      </NavLink>
+                    </li>
                     {categories?.map((c) => (
-                      <li className="dropdown-item">
+                      <li className="dropdown-item" key={c._id}>
                         <NavLink
                           className="d-flex nav-link p-0 justify-content-end"
                           to={`/category/${c.slug}`}
