@@ -133,6 +133,10 @@ export default function ProductView() {
                 style={{ borderBottomRightRadius: "5px" }}
                 onClick={() => {
                   setCart([...cart, product]);
+                  localStorage.setItem(
+                    "cart",
+                    JSON.stringify([...cart, product])
+                  );
                   toast.success("Added to Cart");
                 }}
               >
