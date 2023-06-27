@@ -130,6 +130,43 @@ export default function Cart() {
               Total / Address / Payments
               <hr />
               <h6>Total: {cartTotal()}</h6>
+              {auth?.user?.address ? (
+                <>
+                  <div className="mb-3">
+                    <hr />
+                    <h4>Address:</h4>
+                    <h5>{auth?.user?.address}</h5>
+                  </div>
+                  <button
+                    className="btn btn-outline-warning"
+                    onClick={() => navigate("/dashboard/user/profile")}
+                  >
+                    Update address
+                  </button>
+                </>
+              ) : (
+                <div className="mb-3">
+                  {auth?.token ? (
+                    <button
+                      className="btn btn-outline-warning"
+                      onClick={() => navigate("/dashboard/user/profile")}
+                    >
+                      Add delivery address
+                    </button>
+                  ) : (
+                    <button
+                      className="btn btn-outline-danger mt-3"
+                      onClick={() =>
+                        navigate("/login", {
+                          state: "/cart",
+                        })
+                      }
+                    >
+                      Login to checkout
+                    </button>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         )}
