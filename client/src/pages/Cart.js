@@ -35,9 +35,9 @@ export default function Cart() {
     });
 
     // Return the 'total' value as a formatted string using 'toLocaleString'
-    return total.toLocaleString("en-US", {
+    return total.toLocaleString("en-GB", {
       style: "currency",
-      currency: "USD",
+      currency: "GBP",
     });
   };
 
@@ -95,9 +95,9 @@ export default function Cart() {
                         <div className="d-flex justify-content-between">
                           <div className="card-title h5">{p.name}</div>
                           <div className="text-end">
-                            {p?.price?.toLocaleString("en-US", {
+                            {p?.price?.toLocaleString("en-GB", {
                               style: "currency",
-                              currency: "USD",
+                              currency: "GBP",
                             })}
                           </div>
                         </div>
@@ -126,44 +126,50 @@ export default function Cart() {
               ))}
             </div>
             <div className="col-md-6">
-              <h5>Your Cart Summary</h5>
+              <h5>Cart Summary</h5>
               Total / Address / Payments
               <hr />
-              <h6>Total: {cartTotal()}</h6>
+              <h6 className="text-end">Total: {cartTotal()}</h6>
               {auth?.user?.address ? (
                 <>
                   <div className="mb-3">
                     <hr />
-                    <h4>Address:</h4>
-                    <h5>{auth?.user?.address}</h5>
+                    <h5>Address:</h5>
+                    <span>{auth?.user?.address}</span>
                   </div>
-                  <button
-                    className="btn btn-outline-warning"
-                    onClick={() => navigate("/dashboard/user/profile")}
-                  >
-                    Update address
-                  </button>
-                </>
-              ) : (
-                <div className="mb-3">
-                  {auth?.token ? (
+                  <div className="d-flex justify-content-end">
                     <button
                       className="btn btn-outline-warning"
                       onClick={() => navigate("/dashboard/user/profile")}
                     >
-                      Add delivery address
+                      Update Address
                     </button>
+                  </div>
+                </>
+              ) : (
+                <div className="mb-3">
+                  {auth?.token ? (
+                    <div className="d-flex justify-content-end">
+                      <button
+                        className="btn btn-outline-warning"
+                        onClick={() => navigate("/dashboard/user/profile")}
+                      >
+                        Add Delivery Address
+                      </button>
+                    </div>
                   ) : (
-                    <button
-                      className="btn btn-outline-danger mt-3"
-                      onClick={() =>
-                        navigate("/login", {
-                          state: "/cart",
-                        })
-                      }
-                    >
-                      Login to checkout
-                    </button>
+                    <div className="d-flex justify-content-end">
+                      <button
+                        className="btn btn-outline-danger mt-3"
+                        onClick={() =>
+                          navigate("/login", {
+                            state: "/cart",
+                          })
+                        }
+                      >
+                        Login to Checkout
+                      </button>
+                    </div>
                   )}
                 </div>
               )}
