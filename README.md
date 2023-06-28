@@ -19,3 +19,6 @@ https://facebook.github.io/create-react-app/docs/getting-started
 https://reactjs.org/
 https://reactrouter.com/en/v6.3.0/getting-started/overview
 https://getbootstrap.com/
+https://react.dev/learn/scaling-up-with-reducer-and-context
+https://ant.design/components/checkbox#components-checkbox-demo-check-all
+https://react-icons.github.io/react-icons/icons?name=fa
