@@ -16,29 +16,41 @@ export default function Login() {
   const location = useLocation();
 
   const handleEmailChange = (e) => {
-    setEmail(e.target.value);
+    setEmail(e.target.value); // Update the 'email' state with the new value from the email input field
   };
+
   const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
+    setPassword(e.target.value); // Update the 'password' state with the new value from the password input field
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const toastId = toast.loading("Querying");
+    e.preventDefault(); // Prevent the default form submission behavior
+
+    const toastId = toast.loading("Querying"); // Display a loading toast message while querying
+
     try {
+      // Send a POST request to the '/login' endpoint with the email and password as the payload
       const { data } = await axios.post(`/login`, {
         email,
         password,
       });
-      // console.log(data);
+
       if (data?.error) {
+        // If the response data contains an error message, display it as an error toast
         toast.error(data.error);
-        toast.dismiss(toastId);
+        toast.dismiss(toastId); // Dismiss the loading toast message
       } else {
+        // Store the authentication data in the local storage
         localStorage.setItem("auth", JSON.stringify(data));
+
+        // Update the authentication state with the received token and user data
         setAuth({ ...auth, token: data.token, user: data.user });
+
+        // Display a success toast message for successful login
         toast.success("Login successful");
-        toast.dismiss(toastId);
+        toast.dismiss(toastId); // Dismiss the loading toast message
+
+        // Navigate to the appropriate dashboard based on the user's role
         navigate(
           location.state ||
             `/dashboard/${data?.user?.role === 1 ? "admin" : "user"}`
@@ -50,11 +62,11 @@ export default function Login() {
         toast.error(
           "Network connection error. Please check your internet connection."
         );
-        toast.dismiss(toastId);
+        toast.dismiss(toastId); // Dismiss the loading toast message
       } else {
         // Display a generic error message for other types of errors
         toast.error(err.message);
-        toast.dismiss(toastId);
+        toast.dismiss(toastId); // Dismiss the loading toast message
       }
     }
   };
