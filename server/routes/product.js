@@ -17,6 +17,8 @@ import {
   listProducts,
   productsSearch,
   relatedProducts,
+  getToken,
+  processPayment,
 } from "../controllers/product.js";
 
 router.post("/product", requireSignin, isAdmin, formidable(), create);
@@ -30,5 +32,8 @@ router.get("/products-count", productsCount);
 router.get("/list-products/:page", listProducts);
 router.get("/products/search/:keyword", productsSearch);
 router.get("/related-products/:productId/:categoryId", relatedProducts);
+
+router.get("/braintree/token", getToken);
+router.post("/braintree/payment", processPayment);
 
 export default router;
