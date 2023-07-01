@@ -1,11 +1,19 @@
+import { useEffect, useState } from "react";
 import { useAuth } from "../../context/auth";
 import { useCart } from "../../context/cart";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import DropIn from "braintree-web-drop-in-react";
 
 export default function UserCartSidebar() {
   // context
   const [auth, setAuth] = useAuth();
   const [cart, setCart] = useCart();
+
+  // state
+  const [clientToken, setClientToken] = useState("");
+  const [instance, setInstance] = useState("");
+
   // hooks
   const navigate = useNavigate();
 
@@ -24,6 +32,30 @@ export default function UserCartSidebar() {
       style: "currency",
       currency: "GBP",
     });
+  };
+
+  useEffect(() => {
+    if (auth?.token) {
+      getClientToken();
+    }
+  }, [auth?.token]);
+
+  const getClientToken = async () => {
+    try {
+      const { data } = await axios.get("/braintree/token");
+      setClientToken(data.clientToken);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleBuy = async () => {
+    try {
+      const { nonce } = await instance.requestPaymentMethod();
+      console.log("nonce => ", nonce);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -75,6 +107,30 @@ export default function UserCartSidebar() {
           )}
         </div>
       )}
+      <div className="mt-3">
+        {!clientToken || !cart?.length ? (
+          ""
+        ) : (
+          <>
+            <DropIn
+              options={{
+                authorization: clientToken,
+                paypal: {
+                  flow: "vault",
+                },
+              }}
+              onInstance={(instance) => setInstance(instance)}
+            />
+            <button
+              onClick={handleBuy}
+              className="btn btn-primary col-12 mt-2"
+              disabled={!auth?.user?.address}
+            >
+              Buy
+            </button>
+          </>
+        )}
+      </div>
     </div>
   );
 }

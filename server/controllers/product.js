@@ -307,7 +307,7 @@ export const relatedProducts = async (req, res) => {
   }
 };
 
-export const getToken = async () => {
+export const getToken = async (req, res) => {
   try {
     gateway.clientToken.generate({}, function (err, response) {
       if (err) {
@@ -321,7 +321,7 @@ export const getToken = async () => {
   }
 };
 
-export const processPayment = async () => {
+export const processPayment = async (req, res) => {
   try {
     console.log(req.body);
     let nonceFromTheClient = req.body.paymentMethodNonce;
