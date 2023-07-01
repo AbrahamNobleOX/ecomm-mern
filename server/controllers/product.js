@@ -306,3 +306,43 @@ export const relatedProducts = async (req, res) => {
     console.log(err);
   }
 };
+
+export const getToken = async () => {
+  try {
+    gateway.clientToken.generate({}, function (err, response) {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.send(response);
+      }
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const processPayment = async () => {
+  try {
+    console.log(req.body);
+    let nonceFromTheClient = req.body.paymentMethodNonce;
+
+    let newTransaction = gateway.transaction.sale(
+      {
+        amount: "10.00",
+        paymentMethodNonce: nonceFromTheClient,
+        options: {
+          submitForSettlement: true,
+        },
+      },
+      function (error, result) {
+        if (result) {
+          res.send(result);
+        } else {
+          res.status(500).send(error);
+        }
+      }
+    );
+  } catch (err) {
+    console.log(err);
+  }
+};

@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/auth";
 import { useCart } from "../context/cart";
-import moment from "moment";
 import Menu from "../components/nav/Menu";
+import UserCartSidebar from "../components/cards/UserCartSidebar";
+import ProductCardHorizontal from "../components/cards/ProductCardHorizontal";
 
 export default function Cart() {
   // context
@@ -11,35 +12,6 @@ export default function Cart() {
 
   // hooks
   const navigate = useNavigate();
-
-  const removeFromCart = (productId, productIndex) => {
-    let myCart = [...cart]; // Create a new copy of the cart array using the spread operator
-    let index = myCart.findIndex(
-      (item, index) => item._id === productId && index === productIndex
-    ); // Find the index of the item with the given productId in the cart
-
-    // console.log(index);
-    myCart.splice(index, 1); // Remove the item from the cart array using the splice method
-    setCart(myCart); // Update the cart state with the modified cart array
-    localStorage.setItem("cart", JSON.stringify(myCart)); // Update the cart data stored in localStorage
-  };
-
-  const cartTotal = () => {
-    // Initialize a variable named 'total' with a value of 0
-    let total = 0;
-
-    // Iterate over each item in the 'cart' array using the 'map' method
-    cart.map((item) => {
-      // Add the price of the current item to the 'total' variable
-      total += item.price;
-    });
-
-    // Return the 'total' value as a formatted string using 'toLocaleString'
-    return total.toLocaleString("en-GB", {
-      style: "currency",
-      currency: "GBP",
-    });
-  };
 
   return (
     <>
@@ -75,105 +47,11 @@ export default function Cart() {
           <div className="row">
             <div className="col-md-6">
               {cart?.map((p, index) => (
-                <div key={index} className="card mb-3">
-                  <div className="row g-0">
-                    <div className="col-md-3">
-                      <img
-                        className="img-fluid rounded-start p-1 pt-2"
-                        src={`${process.env.REACT_APP_API}/product/photo/${p._id}`}
-                        alt={p.name}
-                        style={{
-                          height: "130px",
-                          width: "130px",
-                          objectFit: "cover",
-                          borderRadius: "10%",
-                        }}
-                      />
-                    </div>
-                    <div className="col-md-9">
-                      <div className="card-body">
-                        <div className="d-flex justify-content-between">
-                          <div className="card-title h5">{p.name}</div>
-                          <div className="text-end">
-                            {p?.price?.toLocaleString("en-GB", {
-                              style: "currency",
-                              currency: "GBP",
-                            })}
-                          </div>
-                        </div>
-                        <p className="card-text">{`${p?.description?.substring(
-                          0,
-                          50
-                        )}..`}</p>
-                        <div className="d-flex justify-content-between">
-                          <div className="card-text text-end">
-                            <small className="text-muted">
-                              Listed {moment(p.createdAt).fromNow()}
-                            </small>
-                          </div>
-                          <div
-                            className="text-danger mb-2 pointer"
-                            onClick={() => removeFromCart(p._id, index)}
-                          >
-                            <i className="bi bi-x-octagon px-1" />
-                            Remove
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <ProductCardHorizontal key={index} index={index} p={p} />
               ))}
             </div>
-            <div className="col-md-6">
-              <h5>Cart Summary</h5>
-              Total / Address / Payments
-              <hr />
-              <h6 className="text-end">Total: {cartTotal()}</h6>
-              {auth?.user?.address ? (
-                <>
-                  <div className="mb-3">
-                    <hr />
-                    <h5>Address:</h5>
-                    <span>{auth?.user?.address}</span>
-                  </div>
-                  <div className="d-flex justify-content-end">
-                    <button
-                      className="btn btn-outline-warning"
-                      onClick={() => navigate("/dashboard/user/profile")}
-                    >
-                      Update Address
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <div className="mb-3">
-                  {auth?.token ? (
-                    <div className="d-flex justify-content-end">
-                      <button
-                        className="btn btn-outline-warning"
-                        onClick={() => navigate("/dashboard/user/profile")}
-                      >
-                        Add Delivery Address
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="d-flex justify-content-end">
-                      <button
-                        className="btn btn-outline-danger mt-3"
-                        onClick={() =>
-                          navigate("/login", {
-                            state: "/cart",
-                          })
-                        }
-                      >
-                        Login to Checkout
-                      </button>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
+
+            <UserCartSidebar />
           </div>
         )}
       </div>
