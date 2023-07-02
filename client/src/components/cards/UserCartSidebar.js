@@ -124,7 +124,7 @@ export default function UserCartSidebar() {
             <button
               onClick={handleBuy}
               className="btn btn-primary col-12 mt-2"
-              disabled={!auth?.user?.address}
+              disabled={!auth?.user?.address || !instance}
             >
               Buy
             </button>
