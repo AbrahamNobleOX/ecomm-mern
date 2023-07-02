@@ -325,7 +325,6 @@ export const processPayment = async (req, res) => {
   try {
     // console.log(req.body);
     const { nonce, total } = req.body;
-    console.log(total);
 
     let newTransaction = gateway.transaction.sale(
       {
