@@ -4,6 +4,7 @@ import { useCart } from "../../context/cart";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import DropIn from "braintree-web-drop-in-react";
+import toast from "react-hot-toast";
 
 export default function UserCartSidebar() {
   // context
@@ -52,7 +53,25 @@ export default function UserCartSidebar() {
   const handleBuy = async () => {
     try {
       const { nonce } = await instance.requestPaymentMethod();
-      console.log("nonce => ", nonce);
+      //   console.log("nonce => ", nonce);
+
+      // let total = 0;
+      // cart.map((item) => {
+      //   total += item.price;
+      // });
+
+      const calculateTotal = cart.map((item) => item.price);
+      const total = await Promise.all(calculateTotal);
+
+      const { data } = await axios.post("/braintree/payment", {
+        nonce,
+        total: total.reduce((acc, price) => acc + price, 0),
+      });
+      //   console.log("handle buy response => ", data);
+      localStorage.removeItem("cart");
+      setCart([]);
+      navigate("/dashboard/user/orders");
+      toast.success("Payment successful");
     } catch (err) {
       console.log(err);
     }
