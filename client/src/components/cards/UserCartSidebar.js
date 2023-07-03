@@ -55,17 +55,9 @@ export default function UserCartSidebar() {
       const { nonce } = await instance.requestPaymentMethod();
       //   console.log("nonce => ", nonce);
 
-      // let total = 0;
-      // cart.map((item) => {
-      //   total += item.price;
-      // });
-
-      const calculateTotal = cart.map((item) => item.price);
-      const total = await Promise.all(calculateTotal);
-
       const { data } = await axios.post("/braintree/payment", {
         nonce,
-        total: total.reduce((acc, price) => acc + price, 0),
+        cart,
       });
       //   console.log("handle buy response => ", data);
       localStorage.removeItem("cart");

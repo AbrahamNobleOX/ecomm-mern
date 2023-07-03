@@ -132,23 +132,23 @@ export default function ProductView() {
                 className="btn btn-outline-primary col card-button"
                 style={{ borderBottomRightRadius: "5px" }}
                 onClick={() => {
-                  setCart([...cart, product]);
+                  // Create a new cart array without the "photo" property for each item
+                  const cartWithoutPhoto = cart.map((item) => ({
+                    ...item,
+                    photo: undefined, // or null, depending on your preference
+                  }));
 
                   // Create a new object without the "photo" property
-                  const pWithoutPhoto = { ...product };
-                  delete pWithoutPhoto.photo;
+                  const cartItemWithoutPhoto = {
+                    ...product,
+                    photo: undefined, // or null, depending on your preference
+                  };
 
-                  // Create a new cart array without the "photo" property for each item
-                  const cartWithoutPhoto = cart.map((item) => {
-                    const itemWithoutPhoto = { ...item };
-                    delete itemWithoutPhoto.photo;
-                    return itemWithoutPhoto;
-                  });
+                  setCart([...cartWithoutPhoto, cartItemWithoutPhoto]);
 
-                  // Store the new object in the localStorage
                   localStorage.setItem(
                     "cart",
-                    JSON.stringify([...cartWithoutPhoto, pWithoutPhoto])
+                    JSON.stringify([...cartWithoutPhoto, cartItemWithoutPhoto])
                   );
                   toast.success("Added to Cart");
                 }}

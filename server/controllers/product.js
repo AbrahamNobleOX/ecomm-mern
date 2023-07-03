@@ -325,7 +325,16 @@ export const getToken = async (req, res) => {
 export const processPayment = async (req, res) => {
   try {
     // console.log(req.body);
-    const { nonce, total } = req.body;
+    const { nonce, cart } = req.body;
+
+    // let total = 0;
+    // cart.map((item) => {
+    //   total += item.price;
+    // });
+
+    const calculateTotal = cart.map((item) => item.price);
+    const totalPromise = await Promise.all(calculateTotal);
+    const total = totalPromise.reduce((acc, price) => acc + price, 0);
 
     let newTransaction = gateway.transaction.sale(
       {
@@ -335,16 +344,17 @@ export const processPayment = async (req, res) => {
           submitForSettlement: true,
         },
       },
-      function (error, result) {
+      async function (error, result) {
         if (result) {
           // res.send(result);
           // create order
-          const order = new Order({
+          const order = await new Order({
             products: cart,
             payment: result,
             buyer: req.user._id,
           }).save();
           res.json({ ok: true });
+          // console.log("Response from saving order:", order);
         } else {
           res.status(500).send(error);
         }
