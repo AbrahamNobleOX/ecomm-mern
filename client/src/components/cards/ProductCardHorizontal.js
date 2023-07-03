@@ -1,7 +1,7 @@
 import moment from "moment";
 import { useCart } from "../../context/cart";
 
-export default function ProductCardHorizontal({ index, p }) {
+export default function ProductCardHorizontal({ index, p, remove = true }) {
   // context
   const [cart, setCart] = useCart();
 
@@ -54,13 +54,15 @@ export default function ProductCardHorizontal({ index, p }) {
                   Listed {moment(p.createdAt).fromNow()}
                 </small>
               </div>
-              <div
-                className="text-danger mb-2 pointer"
-                onClick={() => removeFromCart(p._id, index)}
-              >
-                <i className="bi bi-x-octagon px-1" />
-                Remove
-              </div>
+              {remove && (
+                <div
+                  className="text-danger mb-2 pointer"
+                  onClick={() => removeFromCart(p._id, index)}
+                >
+                  <i className="bi bi-x-octagon px-1" />
+                  Remove
+                </div>
+              )}
             </div>
           </div>
         </div>
