@@ -2,6 +2,7 @@ import User from "../models/user.js";
 import { hashPassword, comparePassword } from "../helpers/auth.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import Order from "../models/order.js";
 
 dotenv.config();
 
@@ -166,6 +167,23 @@ export const updateProfile = async (req, res) => {
     updated.password = undefined;
     res.json(updated);
   } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getOrders = async (req, res) => {
+  try {
+    // Find orders for the current user based on the buyer ID
+    const orders = await Order.find({ buyer: req.user._id })
+      // Populate the "products" field of the orders, excluding the "photo" field
+      .populate("products", "-photo")
+      // Populate the "buyer" field of the orders, including only the "name" field
+      .populate("buyer", "name");
+
+    // Send the orders as a JSON response to the client
+    res.json(orders);
+  } catch (err) {
+    // If an error occurs, log it to the console
     console.log(err);
   }
 };
