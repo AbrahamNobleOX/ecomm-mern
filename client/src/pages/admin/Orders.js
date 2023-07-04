@@ -4,12 +4,22 @@ import AdminMenu from "../../components/nav/AdminMenu";
 import axios from "axios";
 import moment from "moment";
 import ProductCardHorizontal from "../../components/cards/ProductCardHorizontal";
+import { Select } from "antd";
+import toast from "react-hot-toast";
 
 export default function AdminOrders() {
   // context
   const [auth, setAuth] = useAuth();
   // state
   const [orders, setOrders] = useState([]);
+  const [status, setStatus] = useState([
+    "Not processed",
+    "Processing",
+    "Shipped",
+    "Delivered",
+    "Cancelled",
+  ]);
+  const [changedStatus, setChangedStatus] = useState("");
 
   useEffect(() => {
     if (auth?.token) getOrders();
@@ -21,6 +31,20 @@ export default function AdminOrders() {
       setOrders(data);
     } catch (err) {
       console.log(err.message);
+    }
+  };
+
+  const handleChange = async (orderId, value) => {
+    setChangedStatus(value);
+    try {
+      const { data } = await axios.put(`/order-status/${orderId}`, {
+        status: value,
+      });
+      getOrders();
+      toast.success("Order Status Updated");
+    } catch (err) {
+      toast.error("Update Request failed. Try again.");
+      console.log(err);
     }
   };
 
@@ -52,7 +76,26 @@ export default function AdminOrders() {
                       <tbody>
                         <tr>
                           <td>{i + 1}</td>
-                          <td>{o?.status}</td>
+                          <td>
+                            <Select
+                              // showSearch
+                              className="w-75"
+                              placeholder="Change Order Status"
+                              size="large"
+                              onChange={(value) => handleChange(o._id, value)}
+                              value={o?.status}
+                              // filterOption={(input, option) =>
+                              //   (option?.label ?? "")
+                              //     .toLowerCase()
+                              //     .includes(input.toLowerCase())
+                              // }
+                              options={status?.map((s, i) => ({
+                                key: i,
+                                label: s,
+                                value: s,
+                              }))}
+                            />
+                          </td>
                           <td>{o?.buyer?.name}</td>
                           <td>{moment(o?.createdAt).fromNow()}</td>
                           <td>{o?.payment?.success ? "Success" : "Failed"}</td>
