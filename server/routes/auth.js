@@ -12,6 +12,7 @@ import {
   admincheck,
   updateProfile,
   getOrders,
+  allOrders,
 } from "../controllers/auth.js";
 
 // Define routes. GET route (expressjs)
@@ -21,6 +22,7 @@ router.get("/auth-check", requireSignin, authcheck);
 router.get("/admin-check", requireSignin, isAdmin, admincheck);
 router.put("/profile", requireSignin, updateProfile);
 router.get("/orders", requireSignin, getOrders);
+router.get("/all-orders", requireSignin, isAdmin, allOrders);
 
 // testing
 router.get("/secret", requireSignin, isAdmin, secret);
