@@ -2,128 +2,64 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../../context/auth";
 import AdminMenu from "../../components/nav/AdminMenu";
 import axios from "axios";
-import toast from "react-hot-toast";
-import CategoryForm from "../../components/forms/CategoryForm";
-import { Modal } from "antd";
+import DataTable from "react-data-table-component";
 
 export default function AdminCategory() {
   // context
   const [auth, setAuth] = useAuth();
 
   // state
-  const [name, setName] = useState("");
-  const [categories, setCategories] = useState([]);
-  const [visible, setVisible] = useState(false);
-  const [selected, setSelected] = useState(null);
-  const [updatingName, setUpdatingName] = useState("");
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [totalRows, setTotalRows] = useState(0);
+  const [perPage, setPerPage] = useState(5);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const toastId = toast.loading("Creating");
-    try {
-      const { data } = await axios.post("/category", { name });
-      if (data?.error) {
-        toast.error(data.error);
-        toast.dismiss(toastId);
-      } else {
-        loadCategories();
-        setName("");
-        toast.success(`"${data.name}" is created`);
-        toast.dismiss(toastId);
-      }
-    } catch (err) {
-      if (err.message === "Network Error") {
-        // Display a specific error message when the network is disabled
-        toast.error(
-          "Network connection error. Please check your internet connection."
-        );
-        toast.dismiss(toastId);
-      } else {
-        // Display a generic error message for other types of errors
-        console.log(err.message);
-        toast.error("Create category failed. Try again.");
-        toast.dismiss(toastId);
-      }
-    }
+  const columns = [
+    {
+      name: "Title",
+      selector: (row) => row._id,
+    },
+    {
+      name: "Name",
+      selector: (row) => row.name,
+    },
+    {
+      name: "Slug",
+      selector: (row) => row.slug,
+    },
+  ];
+
+  const fetchUsers = async (page) => {
+    setLoading(true);
+
+    const { data } = await axios.get(
+      `/categories?page=${page}&per_page=${perPage}&delay=1`
+    );
+
+    setData(data.data);
+    setTotalRows(data.total);
+    setLoading(false);
+  };
+
+  const handlePageChange = (page) => {
+    fetchUsers(page);
+  };
+
+  const handlePerRowsChange = async (newPerPage, page) => {
+    setLoading(true);
+
+    const { data } = await axios.get(
+      `/categories?page=${page}&per_page=${newPerPage}&delay=1`
+    );
+
+    setData(data.data);
+    setPerPage(newPerPage);
+    setLoading(false);
   };
 
   useEffect(() => {
-    loadCategories();
+    fetchUsers(1); // fetch page 1 of users
   }, []);
-
-  const loadCategories = async () => {
-    try {
-      const { data } = await axios.get("/categories");
-      setCategories(data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handleUpdate = async (e) => {
-    e.preventDefault();
-    const toastId = toast.loading("Updating");
-    try {
-      const { data } = await axios.put(`/category/${selected._id}`, {
-        name: updatingName,
-      });
-      if (data?.error) {
-        toast.error(data.error);
-        toast.dismiss(toastId);
-      } else {
-        toast.success(`"${data.name}" is updated`);
-        setSelected(null);
-        setUpdatingName("");
-        loadCategories();
-        setVisible(false);
-        toast.dismiss(toastId);
-      }
-    } catch (err) {
-      if (err.message === "Network Error") {
-        // Display a specific error message when the network is disabled
-        toast.error(
-          "Network connection error. Please check your internet connection."
-        );
-        toast.dismiss(toastId);
-      } else {
-        // Display a generic error message for other types of errors
-        console.log(err.message);
-        toast.error("Category may already exist. Try again.");
-        toast.dismiss(toastId);
-      }
-    }
-  };
-
-  const handleDelete = async (e) => {
-    e.preventDefault();
-    const toastId = toast.loading("Deleting");
-    try {
-      const { data } = await axios.delete(`/category/${selected._id}`);
-      if (data?.error) {
-        toast.error(data.error);
-        toast.dismiss(toastId);
-      } else {
-        toast.success(`"${data.name}" is deleted`);
-        setSelected(null);
-        loadCategories();
-        setVisible(false);
-        toast.dismiss(toastId);
-      }
-    } catch (err) {
-      if (err.message === "Network Error") {
-        // Display a specific error message when the network is disabled
-        toast.error(
-          "Network connection error. Please check your internet connection."
-        );
-        toast.dismiss(toastId);
-      } else {
-        // Display a generic error message for other types of errors
-        console.log(err.message);
-        toast.error("Category may already exist. Try again.");
-        toast.dismiss(toastId);
-      }
-    }
-  };
 
   return (
     <>
@@ -134,45 +70,22 @@ export default function AdminCategory() {
           <div className="container col-md-12 d-flex justify-content-center px-5 py-2">
             <div className="content">
               <h1 className="mb-5">Welcome to the Admin Category</h1>
-              <CategoryForm
-                value={name}
-                setValue={setName}
-                handleSubmit={handleSubmit}
-              />
-              {/* <hr className="my-2 mx-0" /> */}
             </div>
           </div>
 
           <div className="container col-md-6 px-5">
             <div className="content">
-              {categories?.map((c) => (
-                <button
-                  key={c._id}
-                  className="btn btn-outline-primary btn-sm m-1"
-                  onClick={() => {
-                    setVisible(true);
-                    setSelected(c);
-                    setUpdatingName(c.name);
-                  }}
-                >
-                  {c.name}
-                </button>
-              ))}
-
-              <Modal
-                open={visible}
-                onOk={() => setVisible(false)}
-                onCancel={() => setVisible(false)}
-                footer={null}
-              >
-                <CategoryForm
-                  value={updatingName}
-                  setValue={setUpdatingName}
-                  handleSubmit={handleUpdate}
-                  buttonText="Update"
-                  handleDelete={handleDelete}
-                />
-              </Modal>
+              <DataTable
+                title="Users"
+                columns={columns}
+                data={data}
+                progressPending={loading}
+                pagination
+                paginationServer
+                paginationTotalRows={totalRows}
+                onChangeRowsPerPage={handlePerRowsChange}
+                onChangePage={handlePageChange}
+              />
             </div>
           </div>
         </div>

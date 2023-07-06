@@ -55,10 +55,43 @@ export const remove = async (req, res) => {
   }
 };
 
+// export const list = async (req, res) => {
+//   try {
+//     const all = await Category.find({});
+//     res.json(all);
+//   } catch (err) {
+//     console.log(err);
+//     return res.status(400).json(err.message);
+//   }
+// };
+
 export const list = async (req, res) => {
   try {
-    const all = await Category.find({});
-    res.json(all);
+    const page = parseInt(req.query.page) || 1; // Current page (default: 1)
+    const perPage = parseInt(req.query.per_page) || 5; // Number of category per page (default: 5)
+    const delayDuration = parseInt(req.query.delay) || 1; // Delay duration in seconds
+    const delayInMilliseconds = delayDuration * 1000; // Convert delay duration to milliseconds
+
+    const startIndex = (page - 1) * perPage;
+
+    // Simulate a delay of 1 second before querying MongoDB
+    await new Promise((resolve) => setTimeout(resolve, delayInMilliseconds));
+
+    // Query MongoDB to retrieve paginated category
+    const data = await Category.find().skip(startIndex).limit(perPage).exec();
+
+    // Query MongoDB to get the total number of category
+    const totalRows = await Category.countDocuments().exec();
+
+    const totalPages = Math.ceil(totalRows / perPage);
+
+    res.json({
+      data,
+      total: totalRows,
+      page,
+      per_page: perPage,
+      total_pages: totalPages,
+    });
   } catch (err) {
     console.log(err);
     return res.status(400).json(err.message);
