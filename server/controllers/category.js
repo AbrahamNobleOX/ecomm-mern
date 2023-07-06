@@ -68,17 +68,26 @@ export const remove = async (req, res) => {
 export const list = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1; // Current page (default: 1)
-    const perPage = parseInt(req.query.per_page) || 5; // Number of category per page (default: 5)
+    const perPage = parseInt(req.query.per_page) || 10; // Number of category per page (default: 5)
     const delayDuration = parseInt(req.query.delay) || 1; // Delay duration in seconds
     const delayInMilliseconds = delayDuration * 1000; // Convert delay duration to milliseconds
+    const sortField = req.query.sort || "name"; // Sort field (default: id)
+    const sortDirection = req.query.order || "asc"; // Sort direction (default: asc)
 
     const startIndex = (page - 1) * perPage;
 
-    // Simulate a delay of 1 second before querying MongoDB
+    const sortOptions = {};
+    sortOptions[sortField] = sortDirection === "asc" ? 1 : -1;
+
+    // Simulate a delay before querying MongoDB
     await new Promise((resolve) => setTimeout(resolve, delayInMilliseconds));
 
     // Query MongoDB to retrieve paginated category
-    const data = await Category.find().skip(startIndex).limit(perPage).exec();
+    const data = await Category.find()
+      .sort(sortOptions)
+      .skip(startIndex)
+      .limit(perPage)
+      .exec();
 
     // Query MongoDB to get the total number of category
     const totalRows = await Category.countDocuments().exec();
@@ -91,6 +100,8 @@ export const list = async (req, res) => {
       page,
       per_page: perPage,
       total_pages: totalPages,
+      sort: sortField,
+      order: sortDirection,
     });
   } catch (err) {
     console.log(err);

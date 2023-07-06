@@ -12,20 +12,28 @@ export default function AdminCategory() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [totalRows, setTotalRows] = useState(0);
-  const [perPage, setPerPage] = useState(5);
+  const [perPage, setPerPage] = useState(10);
+  const [sortField, setSortField] = useState("name"); // Column to sort by
+  const [sortDirectionSt, setSortDirection] = useState("asc"); // Sorting direction
 
   const columns = [
     {
-      name: "Title",
+      name: "Id",
       selector: (row) => row._id,
+      sortable: true,
+      sortField: "id",
     },
     {
       name: "Name",
       selector: (row) => row.name,
+      sortable: true,
+      sortField: "name",
     },
     {
       name: "Slug",
       selector: (row) => row.slug,
+      sortable: true,
+      sortField: "slug",
     },
   ];
 
@@ -33,7 +41,7 @@ export default function AdminCategory() {
     setLoading(true);
 
     const { data } = await axios.get(
-      `/categories?page=${page}&per_page=${perPage}&delay=1`
+      `/categories?page=${page}&per_page=${perPage}&sort=${sortField}&order=${sortDirectionSt}&delay=1`
     );
 
     setData(data.data);
@@ -49,7 +57,7 @@ export default function AdminCategory() {
     setLoading(true);
 
     const { data } = await axios.get(
-      `/categories?page=${page}&per_page=${newPerPage}&delay=1`
+      `/categories?page=${page}&per_page=${newPerPage}&sort=${sortField}&order=${sortDirectionSt}&delay=1`
     );
 
     setData(data.data);
@@ -59,7 +67,26 @@ export default function AdminCategory() {
 
   useEffect(() => {
     fetchUsers(1); // fetch page 1 of users
+    // handleSort("_id", "asc");
   }, []);
+
+  const handleChange = ({ selectedRows }) => {
+    // You can set state or dispatch with something like Redux so we can use the retrieved data
+    console.log("Selected Rows: ", selectedRows);
+  };
+
+  const handleSort = async (column, sortDirection) => {
+    /// reach out to some API and get new data using or sortField and sortDirection
+    console.log(column, sortDirection);
+    const { data } = await axios.get(
+      `/categories?sort=${column.sortField}&order=${sortDirection}&delay=1`
+    );
+
+    setData(data.data);
+    setSortField(column.sortField);
+    setSortDirection(sortDirection);
+    setLoading(false);
+  };
 
   return (
     <>
@@ -76,15 +103,19 @@ export default function AdminCategory() {
           <div className="container col-md-6 px-5">
             <div className="content">
               <DataTable
-                title="Users"
+                title="Categories"
                 columns={columns}
                 data={data}
                 progressPending={loading}
+                selectableRows
+                onSelectedRowsChange={handleChange}
                 pagination
                 paginationServer
                 paginationTotalRows={totalRows}
                 onChangeRowsPerPage={handlePerRowsChange}
                 onChangePage={handlePageChange}
+                onSort={handleSort}
+                sortServer
               />
             </div>
           </div>
