@@ -72,12 +72,12 @@ export const list = async (req, res) => {
     const delayDuration = parseInt(req.query.delay) || 1; // Delay duration in seconds
     const delayInMilliseconds = delayDuration * 1000; // Convert delay duration to milliseconds
     const sortField = req.query.sort || "name"; // Sort field (default: id)
-    const sortDirection = req.query.order || "asc"; // Sort direction (default: asc)
+    const sortDirection = req.query.order || "desc"; // Sort direction (default: asc)
 
     const startIndex = (page - 1) * perPage;
 
     const sortOptions = {};
-    sortOptions[sortField] = sortDirection === "asc" ? 1 : -1;
+    sortOptions[sortField] = sortDirection === "desc" ? -1 : 1;
 
     // Simulate a delay before querying MongoDB
     await new Promise((resolve) => setTimeout(resolve, delayInMilliseconds));

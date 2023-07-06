@@ -14,7 +14,7 @@ export default function AdminCategory() {
   const [totalRows, setTotalRows] = useState(0);
   const [perPage, setPerPage] = useState(10);
   const [sortField, setSortField] = useState("name"); // Column to sort by
-  const [sortDirectionSt, setSortDirection] = useState("asc"); // Sorting direction
+  const [sortDirectionSt, setSortDirection] = useState("desc"); // Sorting direction
 
   const columns = [
     {
@@ -78,6 +78,7 @@ export default function AdminCategory() {
   const handleSort = async (column, sortDirection) => {
     /// reach out to some API and get new data using or sortField and sortDirection
     console.log(column, sortDirection);
+    setLoading(true);
     const { data } = await axios.get(
       `/categories?sort=${column.sortField}&order=${sortDirection}&delay=1`
     );
