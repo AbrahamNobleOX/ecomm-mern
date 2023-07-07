@@ -38,15 +38,19 @@ export default function AdminCategory() {
   ];
 
   const fetchUsers = async (page) => {
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    const { data } = await axios.get(
-      `/categories?page=${page}&per_page=${perPage}&sort=${sortField}&order=${sortDirectionSt}&delay=1`
-    );
+      const { data } = await axios.get(
+        `/categories?page=${page}&per_page=${perPage}&sort=${sortField}&order=${sortDirectionSt}&delay=1`
+      );
 
-    setData(data.data);
-    setTotalRows(data.total);
-    setLoading(false);
+      setData(data.data);
+      setTotalRows(data.total);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handlePageChange = (page) => {
@@ -54,15 +58,19 @@ export default function AdminCategory() {
   };
 
   const handlePerRowsChange = async (newPerPage, page) => {
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    const { data } = await axios.get(
-      `/categories?page=${page}&per_page=${newPerPage}&sort=${sortField}&order=${sortDirectionSt}&delay=1`
-    );
+      const { data } = await axios.get(
+        `/categories?page=${page}&per_page=${newPerPage}&sort=${sortField}&order=${sortDirectionSt}&delay=1`
+      );
 
-    setData(data.data);
-    setPerPage(newPerPage);
-    setLoading(false);
+      setData(data.data);
+      setPerPage(newPerPage);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -76,17 +84,21 @@ export default function AdminCategory() {
   };
 
   const handleSort = async (column, sortDirection) => {
-    /// reach out to some API and get new data using or sortField and sortDirection
-    console.log(column, sortDirection);
-    setLoading(true);
-    const { data } = await axios.get(
-      `/categories?sort=${column.sortField}&order=${sortDirection}&delay=1`
-    );
+    try {
+      /// reach out to some API and get new data using or sortField and sortDirection
+      console.log(column, sortDirection);
+      setLoading(true);
+      const { data } = await axios.get(
+        `/categories?sort=${column.sortField}&order=${sortDirection}&delay=1`
+      );
 
-    setData(data.data);
-    setSortField(column.sortField);
-    setSortDirection(sortDirection);
-    setLoading(false);
+      setData(data.data);
+      setSortField(column.sortField);
+      setSortDirection(sortDirection);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

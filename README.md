@@ -22,3 +22,7 @@ https://getbootstrap.com/
 https://react.dev/learn/scaling-up-with-reducer-and-context
 https://ant.design/components/checkbox#components-checkbox-demo-check-all
 https://react-icons.github.io/react-icons/icons?name=fa
+
+https://www.youtube.com/watch?v=rgY1oPNVgwU
+https://www.youtube.com/watch?v=qDTAWSg41ag
+https://www.youtube.com/watch?v=RVqj1yzB92E

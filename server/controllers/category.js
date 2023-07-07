@@ -73,6 +73,7 @@ export const list = async (req, res) => {
     const delayInMilliseconds = delayDuration * 1000; // Convert delay duration to milliseconds
     const sortField = req.query.sort || "name"; // Sort field (default: id)
     const sortDirection = req.query.order || "desc"; // Sort direction (default: asc)
+    const keyword = req.query.keyword || ""; // Search keyword
 
     const startIndex = (page - 1) * perPage;
 
@@ -83,7 +84,12 @@ export const list = async (req, res) => {
     await new Promise((resolve) => setTimeout(resolve, delayInMilliseconds));
 
     // Query MongoDB to retrieve paginated category
-    const data = await Category.find()
+    const data = await Category.find({
+      $or: [
+        { name: { $regex: keyword, $options: "i" } },
+        { slug: { $regex: keyword, $options: "i" } },
+      ],
+    })
       .sort(sortOptions)
       .skip(startIndex)
       .limit(perPage)
