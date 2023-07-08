@@ -15,13 +15,14 @@ export default function AdminCategory() {
   const [perPage, setPerPage] = useState(10);
   const [sortField, setSortField] = useState("name"); // Column to sort by
   const [sortDirectionSt, setSortDirection] = useState("desc"); // Sorting direction
+  const [search, setSearch] = useState("");
 
   const columns = [
     {
       name: "Id",
       selector: (row) => row._id,
       sortable: true,
-      sortField: "id",
+      keyword: "id",
     },
     {
       name: "Name",
@@ -42,7 +43,7 @@ export default function AdminCategory() {
       setLoading(true);
 
       const { data } = await axios.get(
-        `/categories?page=${page}&per_page=${perPage}&sort=${sortField}&order=${sortDirectionSt}&delay=1`
+        `/categories?page=${page}&per_page=${perPage}&sort=${sortField}&order=${sortDirectionSt}&keyword=${search}&delay=1`
       );
 
       setData(data.data);
@@ -62,7 +63,7 @@ export default function AdminCategory() {
       setLoading(true);
 
       const { data } = await axios.get(
-        `/categories?page=${page}&per_page=${newPerPage}&sort=${sortField}&order=${sortDirectionSt}&delay=1`
+        `/categories?page=${page}&per_page=${newPerPage}&sort=${sortField}&order=${sortDirectionSt}&keyword=${search}&delay=1`
       );
 
       setData(data.data);
@@ -75,7 +76,6 @@ export default function AdminCategory() {
 
   useEffect(() => {
     fetchUsers(1); // fetch page 1 of users
-    // handleSort("_id", "asc");
   }, []);
 
   const handleChange = ({ selectedRows }) => {
@@ -89,7 +89,7 @@ export default function AdminCategory() {
       console.log(column, sortDirection);
       setLoading(true);
       const { data } = await axios.get(
-        `/categories?sort=${column.sortField}&order=${sortDirection}&delay=1`
+        `/categories?sort=${column.sortField}&order=${sortDirection}&keyword=${search}&delay=1`
       );
 
       setData(data.data);
@@ -98,6 +98,60 @@ export default function AdminCategory() {
       setLoading(false);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  // Use the useEffect hook to trigger the search when the keyword changes
+  useEffect(() => {
+    searchCategory();
+  }, [search]);
+
+  // Handle form submission
+  const searchCategory = async (page) => {
+    try {
+      setLoading(true);
+      console.log(search);
+      // Send an HTTP GET request to the server to search for products based on the keyword
+      if (search) {
+        const { data } = await axios.get(
+          `/categories?sort=${sortField}&order=${sortDirectionSt}&keyword=${search}&delay=1`
+        );
+        // console.log(data);
+
+        // Update the search context state with the received search results
+        // The values object is spread (...values) to retain the existing values
+        setData(data.data);
+        setTotalRows(data.total);
+
+        setLoading(false);
+      } else {
+        return;
+      }
+    } catch (err) {
+      console.log(err.message); // Log any errors that occur during the request
+    }
+  };
+
+  const handleInputChange = async (e) => {
+    const keyword = e.target.value;
+    setSearch(keyword);
+    setSortField("name");
+    setSortDirection("desc");
+
+    if (keyword.trim() === "") {
+      try {
+        setLoading(true);
+
+        const { data } = await axios.get(
+          `/categories?sort=${sortField}&order=${sortDirectionSt}&delay=1`
+        );
+
+        setData(data.data);
+        setTotalRows(data.total);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -129,6 +183,22 @@ export default function AdminCategory() {
                 onChangePage={handlePageChange}
                 onSort={handleSort}
                 sortServer
+                subHeader
+                subHeaderComponent={
+                  <form className="d-flex" role="search">
+                    <div className="input-group mb-3">
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Search..."
+                        aria-label="Search"
+                        aria-describedby="basic-addon1"
+                        value={search}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                  </form>
+                }
               />
             </div>
           </div>
