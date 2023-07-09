@@ -98,6 +98,11 @@ export const list = async (req, res) => {
       .limit(perPage)
       .exec();
 
+    const csvData = await Category.find()
+      .sort(sortOptions)
+      .skip(startIndex)
+      .exec();
+
     // Query MongoDB to get the total number of category
     const totalRows = await Category.countDocuments(query).exec();
 
@@ -111,6 +116,7 @@ export const list = async (req, res) => {
       total_pages: totalPages,
       sort: sortField,
       order: sortDirection,
+      csvData,
     });
   } catch (err) {
     console.log(err);
