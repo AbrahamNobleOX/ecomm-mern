@@ -98,7 +98,7 @@ export const list = async (req, res) => {
       .limit(perPage)
       .exec();
 
-    const csvData = await Category.find()
+    const csvData = await Category.find(query, { _id: 0, name: 1, slug: 1 })
       .sort(sortOptions)
       .skip(startIndex)
       .exec();

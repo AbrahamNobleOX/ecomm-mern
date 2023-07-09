@@ -18,7 +18,7 @@ export default function AdminCategory() {
   const [sortDirectionSt, setSortDirection] = useState("desc"); // Sorting direction
   const [search, setSearch] = useState("");
 
-  const [datai, setDatai] = useState([]);
+  const [csvData, setcsvData] = useState([]);
 
   const columns = [
     {
@@ -51,6 +51,7 @@ export default function AdminCategory() {
 
       setData(data.data);
       setTotalRows(data.total);
+      setcsvData(data.csvData);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -71,6 +72,7 @@ export default function AdminCategory() {
 
       setData(data.data);
       setPerPage(newPerPage);
+      setcsvData(data.csvData);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -98,6 +100,7 @@ export default function AdminCategory() {
       setData(data.data);
       setSortField(column.sortField);
       setSortDirection(sortDirection);
+      setcsvData(data.csvData);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -125,7 +128,7 @@ export default function AdminCategory() {
         // The values object is spread (...values) to retain the existing values
         setData(data.data);
         setTotalRows(data.total);
-
+        setcsvData(data.csvData);
         setLoading(false);
       } else {
         return;
@@ -151,18 +154,13 @@ export default function AdminCategory() {
 
         setData(data.data);
         setTotalRows(data.total);
+        setcsvData(data.csvData);
         setLoading(false);
       } catch (error) {
         console.log(error);
       }
     }
   };
-
-  const csvData = [
-    { firstname: "Ahmed", lastname: "Tomi", email: "ah@smthing.co.com" },
-    { firstname: "Raed", lastname: "Labes", email: "rl@smthing.co.com" },
-    { firstname: "Yezzi", lastname: "Min l3b", email: "ymin@cocococo.com" },
-  ];
 
   return (
     <>
@@ -181,10 +179,7 @@ export default function AdminCategory() {
               <div className="d-flex justify-content-end">
                 <CSVLink
                   className="btn btn-outline-primary btn-sm"
-                  data={datai}
-                  onClick={() => {
-                    setDatai(csvData);
-                  }}
+                  data={csvData}
                 >
                   Export CSV
                 </CSVLink>
