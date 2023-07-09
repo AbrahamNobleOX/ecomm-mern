@@ -118,6 +118,14 @@ export const list = async (req, res) => {
   }
 };
 
+// export const exportCSV = async (req, res) => {
+//   try {
+//   } catch (err) {
+//     console.log(err);
+//     return res.status(400).json(err.message);
+//   }
+// };
+
 export const read = async (req, res) => {
   try {
     const category = await Category.findOne({ slug: req.params.slug });

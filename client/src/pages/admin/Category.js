@@ -3,6 +3,7 @@ import { useAuth } from "../../context/auth";
 import AdminMenu from "../../components/nav/AdminMenu";
 import axios from "axios";
 import DataTable from "react-data-table-component";
+import { CSVLink } from "react-csv";
 
 export default function AdminCategory() {
   // context
@@ -16,6 +17,8 @@ export default function AdminCategory() {
   const [sortField, setSortField] = useState("name"); // Column to sort by
   const [sortDirectionSt, setSortDirection] = useState("desc"); // Sorting direction
   const [search, setSearch] = useState("");
+
+  const [datai, setDatai] = useState([]);
 
   const columns = [
     {
@@ -155,6 +158,12 @@ export default function AdminCategory() {
     }
   };
 
+  const csvData = [
+    { firstname: "Ahmed", lastname: "Tomi", email: "ah@smthing.co.com" },
+    { firstname: "Raed", lastname: "Labes", email: "rl@smthing.co.com" },
+    { firstname: "Yezzi", lastname: "Min l3b", email: "ymin@cocococo.com" },
+  ];
+
   return (
     <>
       <div className="container-fluid main-content mb-5">
@@ -167,8 +176,20 @@ export default function AdminCategory() {
             </div>
           </div>
 
-          <div className="container col-md-6 px-5">
+          <div className="container col-md-9 px-5">
             <div className="content">
+              <div className="d-flex justify-content-end">
+                <CSVLink
+                  className="btn btn-outline-primary btn-sm"
+                  data={datai}
+                  onClick={() => {
+                    setDatai(csvData);
+                  }}
+                >
+                  Export CSV
+                </CSVLink>
+              </div>
+
               <DataTable
                 title="Categories"
                 columns={columns}
@@ -185,7 +206,10 @@ export default function AdminCategory() {
                 sortServer
                 subHeader
                 subHeaderComponent={
-                  <form className="d-flex" role="search">
+                  <form
+                    className="d-flex justify-content-between"
+                    role="search"
+                  >
                     <div className="input-group mb-3">
                       <input
                         type="text"
