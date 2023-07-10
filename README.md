@@ -37,3 +37,6 @@ https://www.youtube.com/watch?v=JU7rfAMpbZA
 
 Generate PDF file in ReactJs? How to export a pdf table with jspdf?
 https://www.youtube.com/watch?v=4kJCLqYsIqA
+
+How to parse or read CSV files in ReactJS - Papaparse
+https://www.youtube.com/watch?v=eUz8ZDsQfP8

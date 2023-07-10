@@ -30,7 +30,9 @@ await mongoose
 // Use Morgan middleware
 app.use(cors()); // Enable CORS for all routes
 app.use(morgan("dev"));
-app.use(express.json());
+// Increase payload size limit to 10MB
+app.use(express.json({ limit: "5mb" }));
+app.use(express.urlencoded({ limit: "5mb", extended: true }));
 
 // Middleware function is used with `app.use()`
 app.use("/api", authRoute);

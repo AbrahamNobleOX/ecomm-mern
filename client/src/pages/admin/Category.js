@@ -9,6 +9,7 @@ import Pdf from "../../components/utils/Pdf";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { capitalCase } from "change-case";
+import Papa from "papaparse";
 
 export default function AdminCategory() {
   // context
@@ -23,6 +24,7 @@ export default function AdminCategory() {
   const [sortDirectionSt, setSortDirection] = useState("desc"); // Sorting direction
   const [search, setSearch] = useState("");
   const [csvData, setcsvData] = useState([]);
+  const [parsedcsvData, setParsedCSVData] = useState([]);
 
   const columns = [
     {
@@ -199,6 +201,30 @@ export default function AdminCategory() {
     doc.save("mypdf.pdf");
   };
 
+  const handleFileUpload = async (event) => {
+    const file = event.target.files[0];
+
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      complete: (results) => {
+        setParsedCSVData(results.data);
+        handleParsingComplete(results); // Process the parsed CSV data
+      },
+    });
+  };
+
+  const handleParsingComplete = async (results) => {
+    const parsedData = results.data;
+
+    try {
+      // Send the parsed data to the server using Axios
+      await axios.post("/uploadcsv", parsedData);
+    } catch (error) {
+      console.error("Error uploading data to the server:", error);
+    }
+  };
+
   return (
     <>
       <div className="container-fluid main-content mb-5">
@@ -213,6 +239,31 @@ export default function AdminCategory() {
 
           <div className="container col-md-9 px-5">
             <div className="content">
+              <div className="mb-5">
+                {parsedcsvData.length > 0 && (
+                  <table>
+                    <thead>
+                      <tr>
+                        {Object.keys(parsedcsvData[0]).map((header) => (
+                          <th key={header}>{header}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {parsedcsvData.map((row, index) => (
+                        <tr key={index}>
+                          {Object.values(row).map((cell, index) => (
+                            <td key={index}>{cell}</td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+              <div className="mb-5">
+                <input type="file" accept=".csv" onChange={handleFileUpload} />
+              </div>
               <div className="d-flex justify-content-end">
                 <CSVLink
                   className="btn btn-outline-primary btn-sm mx-2"

@@ -1,6 +1,7 @@
 import Category from "../models/category.js";
 import Product from "../models/product.js";
 import slugify from "slugify";
+import { payloadSize } from "../helpers/category.js";
 
 export const create = async (req, res) => {
   try {
@@ -108,6 +109,54 @@ export const list = async (req, res) => {
       order: sortDirection,
       csvData,
     });
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json(err.message);
+  }
+};
+
+export const uploadCSV = async (req, res) => {
+  try {
+    const parsedData = req.body;
+    const size = payloadSize(parsedData);
+    console.log(`Payload Size: ${size}`);
+
+    // Create an array to store the promises returned by saving each object
+    const savePromises = [];
+
+    // Iterate over each object in the parsedData array
+    await parsedData.forEach((dataObj) => {
+      const name = dataObj.name;
+      const slug = slugify(name);
+
+      // Log the data object before saving it
+      // console.log("Data to be saved:", dataObj);
+
+      // Create a new instance of the DataModel with the current object
+      const newData = new Category({
+        name: name,
+        slug: slug,
+      });
+
+      // Save the data to the database and push the promise to the savePromises array
+      const savePromise = newData.save().catch((error) => {
+        // Handle the duplicate key error
+        if (error.code === 11000) {
+          console.error("Duplicate key error:", error.message);
+          // You can choose to skip or handle the duplicate data as needed
+          // For example, you can choose to ignore the duplicate and continue with saving other data
+        } else {
+          console.error("Error saving data to the database:", error);
+          // Handle other types of errors if needed
+        }
+      });
+
+      // Save the data to the database and push the promise to the savePromises array
+      savePromises.push(savePromise);
+    });
+
+    // Wait for all the save promises to resolve
+    Promise.all(savePromises);
   } catch (err) {
     console.log(err);
     return res.status(400).json(err.message);

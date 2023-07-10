@@ -12,6 +12,7 @@ import {
   list,
   read,
   productsByCategory,
+  uploadCSV,
 } from "../controllers/category.js";
 
 router.post("/category", requireSignin, isAdmin, create);
@@ -20,5 +21,6 @@ router.delete("/category/:categoryId", requireSignin, isAdmin, remove);
 router.get("/categories", list);
 router.get("/category/:slug", read);
 router.get("/products-by-category/:slug", productsByCategory);
+router.post("/uploadcsv", uploadCSV);
 
 export default router;
