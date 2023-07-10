@@ -34,3 +34,6 @@ https://www.youtube.com/watch?v=RVqj1yzB92E
 
 ReactPDF Basic Setup
 https://www.youtube.com/watch?v=JU7rfAMpbZA
+
+Generate PDF file in ReactJs? How to export a pdf table with jspdf?
+https://www.youtube.com/watch?v=4kJCLqYsIqA

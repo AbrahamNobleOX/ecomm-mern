@@ -6,6 +6,8 @@ import DataTable from "react-data-table-component";
 import { CSVLink } from "react-csv";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import Pdf from "../../components/utils/Pdf";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 export default function AdminCategory() {
   // context
@@ -163,6 +165,41 @@ export default function AdminCategory() {
     }
   };
 
+  const exportPdf = async () => {
+    const doc = new jsPDF({ orientation: "landscape" });
+
+    // Set the table headers based on the keys in the first object
+    const headers = Object.keys(csvData[0]);
+
+    // Capitalize each word inside headers
+    const capitalizedHeader = headers.map((header) =>
+      header.replace(/\b\w/g, (match) => match.toUpperCase())
+    );
+
+    // Map the JSON data to an array of arrays
+    const data = csvData.map((item) => Object.values(item));
+
+    // Set the table column widths
+    const columnWidths = headers.map(() => 10);
+
+    // Set the table position (left margin: 10, top margin: 10)
+    const position = { x: 10, y: 10 };
+
+    autoTable(doc, {
+      columnStyles: { name: { halign: "center" } },
+      body: data,
+      head: [capitalizedHeader],
+      columns: columnWidths,
+      // columns: [
+      //   { header: "Name", dataKey: "name" },
+      //   { header: "Slug", dataKey: "slug" },
+      // ],
+      startY: position.y,
+    });
+
+    doc.save("mypdf.pdf");
+  };
+
   return (
     <>
       <div className="container-fluid main-content mb-5">
@@ -200,6 +237,12 @@ export default function AdminCategory() {
                     )
                   }
                 </PDFDownloadLink>
+                <button
+                  className="btn btn-outline-primary btn-sm mx-2"
+                  onClick={exportPdf}
+                >
+                  Export jsPDF
+                </button>
               </div>
 
               <DataTable
