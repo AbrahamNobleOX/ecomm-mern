@@ -8,6 +8,7 @@ import { PDFDownloadLink } from "@react-pdf/renderer";
 import Pdf from "../../components/utils/Pdf";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { capitalCase } from "change-case";
 
 export default function AdminCategory() {
   // context
@@ -172,9 +173,7 @@ export default function AdminCategory() {
     const headers = Object.keys(csvData[0]);
 
     // Capitalize each word inside headers
-    const capitalizedHeader = headers.map((header) =>
-      header.replace(/\b\w/g, (match) => match.toUpperCase())
-    );
+    const capitalizedHeader = headers.map((header) => capitalCase(header));
 
     // Map the JSON data to an array of arrays
     const data = csvData.map((item) => Object.values(item));
