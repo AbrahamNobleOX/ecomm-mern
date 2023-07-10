@@ -23,7 +23,14 @@ https://react.dev/learn/scaling-up-with-reducer-and-context
 https://ant.design/components/checkbox#components-checkbox-demo-check-all
 https://react-icons.github.io/react-icons/icons?name=fa
 
+React Table (Edit, Filter, Sorting, Searching, Pagination, etc) || react-bootstrap-table-next
 https://www.youtube.com/watch?v=rgY1oPNVgwU
+
+React Table (bootstrap) | Search Filter Pagination Export | Hooks
 https://www.youtube.com/watch?v=qDTAWSg41ag
+
+How to do a server-side pagination using react-table "headless" UI library
 https://www.youtube.com/watch?v=RVqj1yzB92E
+
+ReactPDF Basic Setup
 https://www.youtube.com/watch?v=JU7rfAMpbZA
