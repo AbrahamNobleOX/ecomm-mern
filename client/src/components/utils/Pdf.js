@@ -27,7 +27,33 @@ export default function PDFFile({ data }) {
           {data.map((item) => (
             <View key={item.id} style={styles.section}>
               <Text>Name: {item.name}</Text>
-              <Text>Age: {item.age}</Text>
+              <Text>Slug: {item.slug}</Text>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Column 1</th>
+                    <th>Column 2</th>
+                    <th>Column 3</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Row 1, Cell 1</td>
+                    <td>Row 1, Cell 2</td>
+                    <td>Row 1, Cell 3</td>
+                  </tr>
+                  <tr>
+                    <td>Row 2, Cell 1</td>
+                    <td>Row 2, Cell 2</td>
+                    <td>Row 2, Cell 3</td>
+                  </tr>
+                  <tr>
+                    <td>Row 3, Cell 1</td>
+                    <td>Row 3, Cell 2</td>
+                    <td>Row 3, Cell 3</td>
+                  </tr>
+                </tbody>
+              </table>
             </View>
           ))}
         </View>
