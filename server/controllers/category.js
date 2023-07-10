@@ -55,16 +55,6 @@ export const remove = async (req, res) => {
   }
 };
 
-// export const list = async (req, res) => {
-//   try {
-//     const all = await Category.find({});
-//     res.json(all);
-//   } catch (err) {
-//     console.log(err);
-//     return res.status(400).json(err.message);
-//   }
-// };
-
 export const list = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1; // Current page (default: 1)
@@ -123,14 +113,6 @@ export const list = async (req, res) => {
     return res.status(400).json(err.message);
   }
 };
-
-// export const exportCSV = async (req, res) => {
-//   try {
-//   } catch (err) {
-//     console.log(err);
-//     return res.status(400).json(err.message);
-//   }
-// };
 
 export const read = async (req, res) => {
   try {

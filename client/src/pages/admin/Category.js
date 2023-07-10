@@ -4,6 +4,8 @@ import AdminMenu from "../../components/nav/AdminMenu";
 import axios from "axios";
 import DataTable from "react-data-table-component";
 import { CSVLink } from "react-csv";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import Pdf from "../../components/utils/Pdf";
 
 export default function AdminCategory() {
   // context
@@ -17,7 +19,6 @@ export default function AdminCategory() {
   const [sortField, setSortField] = useState("name"); // Column to sort by
   const [sortDirectionSt, setSortDirection] = useState("desc"); // Sorting direction
   const [search, setSearch] = useState("");
-
   const [csvData, setcsvData] = useState([]);
 
   const columns = [
@@ -178,11 +179,27 @@ export default function AdminCategory() {
             <div className="content">
               <div className="d-flex justify-content-end">
                 <CSVLink
-                  className="btn btn-outline-primary btn-sm"
+                  className="btn btn-outline-primary btn-sm mx-2"
                   data={csvData}
                 >
                   Export CSV
                 </CSVLink>
+                <PDFDownloadLink
+                  document={<Pdf data={csvData} />}
+                  fileName="FORM"
+                >
+                  {({ loading }) =>
+                    loading ? (
+                      <button className="btn btn-outline-primary btn-sm">
+                        Loading...
+                      </button>
+                    ) : (
+                      <button className="btn btn-outline-primary btn-sm">
+                        Export PDF
+                      </button>
+                    )
+                  }
+                </PDFDownloadLink>
               </div>
 
               <DataTable
