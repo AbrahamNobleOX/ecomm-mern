@@ -179,7 +179,7 @@ export default function AdminCategory() {
     // Map the JSON data to an array of arrays
     const data = csvData.map((item) => Object.values(item));
 
-    // Set the table column widths
+    // Set the table column widths to 10
     const columnWidths = headers.map(() => 10);
 
     // Set the table position (left margin: 10, top margin: 10)
