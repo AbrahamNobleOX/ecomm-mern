@@ -11,6 +11,7 @@ import autoTable from "jspdf-autotable";
 import { capitalCase } from "change-case";
 import Papa from "papaparse";
 import { faker } from "@faker-js/faker";
+import { read, utils, writeFile } from "xlsx";
 
 function createRandomUser() {
   return {
@@ -40,6 +41,10 @@ export default function AdminCategory() {
   const [search, setSearch] = useState("");
   const [csvData, setcsvData] = useState([]);
   const [parsedcsvData, setParsedCSVData] = useState([]);
+
+  /* the component state is an array of objects */
+  const [pres, setPres] = useState([]);
+  const [batchSizeValue, setBatchSizeValue] = useState(1000);
 
   const columns = [
     {
@@ -229,12 +234,67 @@ export default function AdminCategory() {
     });
   };
 
+  const handleFileUploadXLSX = async (event) => {
+    try {
+      const file = event.target.files[0];
+      const data = await file.arrayBuffer();
+
+      const workbook = await read(data, { type: "array" });
+      const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+
+      const chunkSize = 500;
+      const range = worksheet["!ref"];
+      if (!range) {
+        throw new Error("Worksheet range is undefined.");
+      }
+      const { s, e } = utils.decode_range(range);
+
+      const parsedData = [];
+      let startRow = s.r;
+      while (startRow <= e.r) {
+        const endRow = Math.min(startRow + chunkSize - 1, e.r);
+        const rangeChunk = `${utils.encode_col(s.c)}${
+          startRow + 1
+        }:${utils.encode_col(e.c)}${endRow + 1}`;
+        const chunk = utils.sheet_to_json(worksheet, { range: rangeChunk });
+        parsedData.push(...chunk);
+
+        startRow += chunkSize;
+      }
+
+      console.log("Parsing complete. Total rows:", e.r - s.r + 1);
+
+      // Batched state update
+      let batchIndex = 0;
+      const batchSize = Math.min(batchSizeValue, parsedData.length);
+
+      const updateBatch = () => {
+        setPres((prevPres) => [
+          ...prevPres,
+          ...parsedData.slice(batchIndex, batchIndex + batchSize),
+        ]);
+        batchIndex += batchSize;
+
+        if (batchIndex < parsedData.length) {
+          setTimeout(updateBatch, 0); // Batched update using setTimeout
+        }
+      };
+
+      if (parsedData.length > 0) {
+        setTimeout(updateBatch, 0); // Start batched update
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleParsingComplete = async (results) => {
     const parsedData = results.data;
 
     try {
       // Send the parsed data to the server using Axios
-      await axios.post("/uploadcsv", parsedData);
+      const { data } = await axios.post("/uploadcsv", parsedData);
+      console.log(data);
     } catch (error) {
       console.error("Error uploading data to the server:", error);
     }
@@ -254,6 +314,18 @@ export default function AdminCategory() {
 
           <div className="container col-md-9 px-5">
             <div className="content">
+              <div className="mb-5">
+                <input
+                  type="file"
+                  accept=".xlsx, .csv"
+                  onChange={handleFileUploadXLSX}
+                />
+                <ul>
+                  {pres.map((item, index) => (
+                    <li key={index}>{JSON.stringify(item)}</li>
+                  ))}
+                </ul>
+              </div>
               <div className="mb-5">
                 {users.map((user) => (
                   <div key={user.userId}>

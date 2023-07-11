@@ -123,6 +123,7 @@ export const uploadCSV = async (req, res) => {
 
     // Create an array to store the promises returned by saving each object
     const savePromises = [];
+    let successfulSaves = 0; // Variable to count the successful saves
 
     // Iterate over each object in the parsedData array
     await parsedData.forEach((dataObj) => {
@@ -136,24 +137,39 @@ export const uploadCSV = async (req, res) => {
       });
 
       // Save the data to the database and push the promise to the savePromises array
-      const savePromise = newData.save().catch((error) => {
-        // Handle the duplicate key error
-        if (error.code === 11000) {
-          console.error("Duplicate key error:", error.message);
-          // You can choose to skip or handle the duplicate data as needed
-          // For example, you can choose to ignore the duplicate and continue with saving other data
-        } else {
-          console.error("Error saving data to the database:", error);
-          // Handle other types of errors if needed
-        }
-      });
+      const savePromise = newData
+        .save()
+        .then(() => {
+          successfulSaves++; // Increment the successful saves count
+        })
+        .catch((error) => {
+          // Handle the duplicate key error
+          if (error.code === 11000) {
+            console.error("Duplicate key error:", error.message);
+            // You can choose to skip or handle the duplicate data as needed
+            // For example, you can choose to ignore the duplicate and continue with saving other data
+          } else {
+            console.error("Error saving data to the database:", error);
+            // Handle other types of errors if needed
+          }
+        });
 
       // Save the data to the database and push the promise to the savePromises array
       savePromises.push(savePromise);
     });
 
     // Wait for all the save promises to resolve
-    Promise.all(savePromises);
+    await Promise.all(savePromises);
+
+    // Calculate the count of unsaved items
+    const unsaved = parsedData.length - successfulSaves;
+
+    // All the JSON data have been saved to the database
+    return res.json({
+      message: `${successfulSaves} Data saved successfully. ${unsaved} Unsaved`,
+      saved: successfulSaves,
+      unsaved: unsaved,
+    });
   } catch (err) {
     console.log(err);
     return res.status(400).json(err.message);
