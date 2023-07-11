@@ -29,19 +29,8 @@ const dataSlice = createSlice({
   },
 });
 
-export const fetchData = () => {
-  return async (dispatch) => {
-    dispatch(dataSlice.actions.fetchDataStart());
-
-    try {
-      const { data } = await axios.get("/categories");
-      dispatch(dataSlice.actions.fetchDataSuccess(data));
-    } catch (error) {
-      dispatch(dataSlice.actions.fetchDataFailure(error.message));
-    }
-  };
-};
-
+export const { fetchDataStart, fetchDataSuccess, fetchDataFailure } =
+  dataSlice.actions;
 export default dataSlice.reducer;
 
 export const selectData = (state) => state.allReducers.data.data.csvData;
