@@ -129,9 +129,6 @@ export const uploadCSV = async (req, res) => {
       const name = dataObj.name;
       const slug = slugify(name);
 
-      // Log the data object before saving it
-      // console.log("Data to be saved:", dataObj);
-
       // Create a new instance of the DataModel with the current object
       const newData = new Category({
         name: name,

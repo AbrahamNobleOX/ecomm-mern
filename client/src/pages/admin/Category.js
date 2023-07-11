@@ -10,6 +10,21 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { capitalCase } from "change-case";
 import Papa from "papaparse";
+import { faker } from "@faker-js/faker";
+
+function createRandomUser() {
+  return {
+    userId: faker.string.uuid(),
+    username: faker.internet.userName(),
+    // email: faker.internet.email(),
+    // avatar: faker.image.avatar(),
+    // password: faker.internet.password(),
+    // birthdate: faker.date.birthdate().toString(),
+    // registeredAt: faker.date.past().toString(),
+  };
+}
+
+const users = Array.from({ length: 3 }, createRandomUser);
 
 export default function AdminCategory() {
   // context
@@ -239,6 +254,18 @@ export default function AdminCategory() {
 
           <div className="container col-md-9 px-5">
             <div className="content">
+              <div className="mb-5">
+                {users.map((user) => (
+                  <div key={user.userId}>
+                    <p>Username: {user.username}</p>
+                    {/* <p>Email: {user.email}</p>
+                    <img src={user.avatar} alt="Avatar" />
+                    <p>Password: {user.password}</p>
+                    <p>Birthdate: {user.birthdate}</p>
+                    <p>Registered At: {user.registeredAt}</p> */}
+                  </div>
+                ))}
+              </div>
               <div className="mb-5">
                 {parsedcsvData.length > 0 && (
                   <table>
