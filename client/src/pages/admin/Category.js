@@ -383,7 +383,7 @@ export default function AdminCategory() {
                 >
                   Export CSV
                 </CSVLink>
-                {/* <PDFDownloadLink
+                <PDFDownloadLink
                   document={<Pdf data={csvData} />}
                   fileName="FORM"
                 >
@@ -398,7 +398,7 @@ export default function AdminCategory() {
                       </button>
                     )
                   }
-                </PDFDownloadLink> */}
+                </PDFDownloadLink>
                 <button
                   className="btn btn-outline-primary btn-sm mx-2"
                   onClick={exportPdf}
@@ -407,7 +407,7 @@ export default function AdminCategory() {
                 </button>
               </div>
 
-              {/* <DataTable
+              <DataTable
                 title="Categories"
                 columns={columns}
                 data={data}
@@ -440,7 +440,7 @@ export default function AdminCategory() {
                     </div>
                   </form>
                 }
-              /> */}
+              />
             </div>
           </div>
         </div>
