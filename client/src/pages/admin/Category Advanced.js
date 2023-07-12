@@ -12,8 +12,6 @@ import { capitalCase } from "change-case";
 import Papa from "papaparse";
 import { faker } from "@faker-js/faker";
 import { read, utils, writeFile } from "xlsx";
-import { useSelector, useDispatch } from "react-redux";
-import { increment, decrement, selectCount } from "../../redux/actions";
 
 function createRandomUser() {
   return {
@@ -315,10 +313,6 @@ export default function AdminCategory() {
     }
   };
 
-  // REDUX
-  const count = useSelector(selectCount);
-  const dispatch = useDispatch();
-
   return (
     <>
       <div className="container-fluid main-content mb-5">
@@ -333,23 +327,6 @@ export default function AdminCategory() {
 
           <div className="container col-md-9 px-5">
             <div className="content">
-              <div className="mb-5">
-                <button
-                  className="btn btn-outline-danger btn-sm"
-                  aria-label="Decrement value"
-                  onClick={() => dispatch(decrement())}
-                >
-                  -
-                </button>
-                <span className="mx-3">{count}</span>
-                <button
-                  className="btn btn-outline-primary btn-sm"
-                  aria-label="Increment value"
-                  onClick={() => dispatch(increment())}
-                >
-                  +
-                </button>
-              </div>
               <div className="mb-5">
                 <input
                   type="file"
@@ -406,7 +383,7 @@ export default function AdminCategory() {
                 >
                   Export CSV
                 </CSVLink>
-                {/* <PDFDownloadLink
+                <PDFDownloadLink
                   document={<Pdf data={csvData} />}
                   fileName="FORM"
                 >
@@ -421,7 +398,7 @@ export default function AdminCategory() {
                       </button>
                     )
                   }
-                </PDFDownloadLink> */}
+                </PDFDownloadLink>
                 <button
                   className="btn btn-outline-primary btn-sm mx-2"
                   onClick={exportPdf}
@@ -430,7 +407,7 @@ export default function AdminCategory() {
                 </button>
               </div>
 
-              {/* <DataTable
+              <DataTable
                 title="Categories"
                 columns={columns}
                 data={data}
@@ -463,7 +440,7 @@ export default function AdminCategory() {
                     </div>
                   </form>
                 }
-              /> */}
+              />
             </div>
           </div>
         </div>
