@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../../context/auth";
 import AdminMenu from "../../components/nav/AdminMenu";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function AdminCategory() {
   // context
@@ -41,11 +42,6 @@ export default function AdminCategory() {
   useEffect(() => {
     fetchUsers(1); // fetch page 1 of users
   }, []);
-
-  const handleChange = ({ selectedRows }) => {
-    // You can set state or dispatch with something like Redux so we can use the retrieved data
-    console.log("Selected Rows: ", selectedRows);
-  };
 
   const handleSort = async (sortField, sortDirection) => {
     try {
@@ -164,9 +160,36 @@ export default function AdminCategory() {
   };
 
   // Function to handle logging of selected item IDs
-  const logSelectedItems = (e) => {
+  const logSelectedItems = async (e) => {
     e.preventDefault();
-    console.log(selectedItems);
+    // console.log(selectedItems);
+    const toastId = toast.loading("Deleting");
+    try {
+      const { data } = await axios.delete("/categories/delete", {
+        params: { selectedItems },
+      });
+      if (data?.error) {
+        toast.error(data.error);
+        toast.dismiss(toastId);
+      } else {
+        fetchUsers();
+        toast.success(`"${data.name}" is deleted`);
+        toast.dismiss(toastId);
+      }
+    } catch (err) {
+      if (err.message === "Network Error") {
+        // Display a specific error message when the network is disabled
+        toast.error(
+          "Network connection error. Please check your internet connection."
+        );
+        toast.dismiss(toastId);
+      } else {
+        // Display a generic error message for other types of errors
+        console.log(err.message);
+        toast.error("Category may already exist. Try again.");
+        toast.dismiss(toastId);
+      }
+    }
   };
 
   return (

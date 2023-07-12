@@ -56,6 +56,50 @@ export const remove = async (req, res) => {
   }
 };
 
+export const multiDelete = async (req, res) => {
+  try {
+    const selectedItems = await req.query.selectedItems;
+    console.log(selectedItems);
+
+    // Create an array to store the promises returned by saving each object
+    const savePromises = [];
+
+    // Iterate over each object in the parsedData array
+    await selectedItems.forEach((dataObj) => {
+      const itemId = dataObj;
+
+      // Save the data to the database and push the promise to the savePromises array
+      const savePromise = Category.findByIdAndDelete(itemId).catch((error) => {
+        console.error("Error deleting data in the database:", error);
+      });
+
+      // Save the data to the database and push the promise to the savePromises array
+      savePromises.push(savePromise);
+    });
+
+    // Wait for all the save promises to resolve
+    await Promise.all(savePromises);
+
+    // All the JSON data have been deleted in the database
+    return res.json({
+      status: "Successfully Deleted",
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json(err.message);
+  }
+};
+
+// export const list = async (req, res) => {
+//   try {
+//     const all = await Category.find({});
+//     res.json(all);
+//   } catch (err) {
+//     console.log(err);
+//     return res.status(400).json(err.message);
+//   }
+// };
+
 export const list = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1; // Current page (default: 1)
