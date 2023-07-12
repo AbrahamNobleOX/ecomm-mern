@@ -22,6 +22,7 @@ https://getbootstrap.com/
 https://react.dev/learn/scaling-up-with-reducer-and-context
 https://ant.design/components/checkbox#components-checkbox-demo-check-all
 https://react-icons.github.io/react-icons/icons?name=fa
+https://restcountries.com/
 
 React Table (Edit, Filter, Sorting, Searching, Pagination, etc) || react-bootstrap-table-next
 https://www.youtube.com/watch?v=rgY1oPNVgwU
