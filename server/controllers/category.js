@@ -94,13 +94,11 @@ export const multiDelete = async (req, res) => {
 
     const response = {
       json: (data) => {
-        // console.log(JSON.stringify(data));
         newData = data;
       },
       status: (statusCode) => {
         return {
           json: (data) => {
-            // console.error(JSON.stringify(data));
             newData = data;
           },
         };
@@ -121,17 +119,17 @@ export const multiDelete = async (req, res) => {
   }
 };
 
-// export const list = async (req, res) => {
-//   try {
-//     const all = await Category.find({});
-//     res.json(all);
-//   } catch (err) {
-//     console.log(err);
-//     return res.status(400).json(err.message);
-//   }
-// };
-
 export const list = async (req, res) => {
+  try {
+    const all = await Category.find({});
+    res.json(all);
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json(err.message);
+  }
+};
+
+export const listx = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1; // Current page (default: 1)
     const perPage = parseInt(req.query.per_page) || 10; // Number of category per page (default: 5)
