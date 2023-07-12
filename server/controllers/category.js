@@ -58,8 +58,8 @@ export const remove = async (req, res) => {
 
 export const multiDelete = async (req, res) => {
   try {
-    const selectedItems = await req.query.selectedItems;
-    console.log(selectedItems);
+    const selectedItems = req.query.selectedItems;
+    // console.log(selectedItems);
 
     // Create an array to store the promises returned by saving each object
     const savePromises = [];
@@ -80,9 +80,40 @@ export const multiDelete = async (req, res) => {
     // Wait for all the save promises to resolve
     await Promise.all(savePromises);
 
+    const request = {
+      query: {
+        page: 1,
+        per_page: 10,
+        sort: "name",
+        order: "desc",
+        keyword: "",
+      },
+    }; // Provide any necessary request parameters
+
+    let newData; // Variable to store the data
+
+    const response = {
+      json: (data) => {
+        // console.log(JSON.stringify(data));
+        newData = data;
+      },
+      status: (statusCode) => {
+        return {
+          json: (data) => {
+            // console.error(JSON.stringify(data));
+            newData = data;
+          },
+        };
+      },
+    };
+
+    // Call the list() function and store the returned response
+    await list(request, response);
+
     // All the JSON data have been deleted in the database
-    return res.json({
+    res.json({
       status: "Successfully Deleted",
+      newData: newData,
     });
   } catch (err) {
     console.log(err);
@@ -143,7 +174,7 @@ export const list = async (req, res) => {
 
     const totalPages = Math.ceil(totalRows / perPage);
 
-    res.json({
+    return res.json({
       data,
       total: totalRows,
       page,

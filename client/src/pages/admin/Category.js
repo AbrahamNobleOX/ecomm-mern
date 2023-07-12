@@ -163,6 +163,7 @@ export default function AdminCategory() {
   const logSelectedItems = async (e) => {
     e.preventDefault();
     // console.log(selectedItems);
+    setLoading(true);
     const toastId = toast.loading("Deleting");
     try {
       const { data } = await axios.delete("/categories/delete", {
@@ -170,10 +171,19 @@ export default function AdminCategory() {
       });
       if (data?.error) {
         toast.error(data.error);
+        setLoading(false);
         toast.dismiss(toastId);
       } else {
-        fetchUsers();
+        // fetchUsers(1);
+        setData(data.newData.data);
+        setSortField(data.newData.sort);
+        setSortDirection(data.newData.order);
+        setTotalRows(data.newData.total);
+        setTotalPages(data.newData.total_pages);
+        setCurrentPage(data.newData.page);
+        // console.log(data);
         toast.success(`"${data.name}" is deleted`);
+        setLoading(false);
         toast.dismiss(toastId);
       }
     } catch (err) {
