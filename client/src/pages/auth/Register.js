@@ -44,7 +44,7 @@ export default function Register() {
         setAuth({ ...auth, token: data.token, user: data.user });
         toast.success("Registration successful");
         toast.dismiss(toastId);
-        navigate("/dashboard");
+        navigate("/dashboard/user");
       }
     } catch (err) {
       if (err.message === "Network Error") {

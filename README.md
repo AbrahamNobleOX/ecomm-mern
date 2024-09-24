@@ -1,43 +1,39 @@
-MERN STACK E-Commerce with 116 How-To's
+# MERN Stack Application
 
-References
+## Overview
 
-Server
+This project is a full-stack ecommerce web application built using the **MERN stack**: **MongoDB**, **Express**, **React**, and **Node.js**. It implements a RESTful API with **Express** and uses **MongoDB** for the database. The frontend is built with **React (JavaScript)** for a responsive and interactive UI.
 
-https://www.npmjs.com/package/nodemon
-https://expressjs.com/en/starter/hello-world.html
-https://www.npmjs.com/package/dotenv
-https://www.npmjs.com/package/mongoose
-https://github.com/Automattic/mongoose
-https://www.mongodb.com/developer/languages/javascript/node-connect-mongodb/
-https://www.mongodb.com/developer/languages/javascript/getting-started-with-mongodb-and-mongoose/
+### Features
 
-Client
+- **Backend**: Express.js
 
-https://legacy.reactjs.org/docs/create-a-new-react-app.html
-https://facebook.github.io/create-react-app/docs/getting-started
-https://reactjs.org/
-https://reactrouter.com/en/v6.3.0/getting-started/overview
-https://getbootstrap.com/
-https://react.dev/learn/scaling-up-with-reducer-and-context
-https://ant.design/components/checkbox#components-checkbox-demo-check-all
-https://react-icons.github.io/react-icons/icons?name=fa
-https://restcountries.com/
+  - RESTful API for managing data.
+  - MongoDB database for storing persistent data.
+  - JWT-based authentication (optional).
+  - Node.js for handling backend logic.
 
-React Table (Edit, Filter, Sorting, Searching, Pagination, etc) || react-bootstrap-table-next
-https://www.youtube.com/watch?v=rgY1oPNVgwU
+- **Frontend**: React with JavaScript
+  - Modular React components.
+  - Axios or Fetch API integration for making API calls.
+  - Responsive design using Bootstrap.
 
-React Table (bootstrap) | Search Filter Pagination Export | Hooks
-https://www.youtube.com/watch?v=qDTAWSg41ag
+### Technologies
 
-How to do a server-side pagination using react-table "headless" UI library
-https://www.youtube.com/watch?v=RVqj1yzB92E
+- **Backend**:
+  - Node.js
+  - Express.js
+  - MongoDB with Mongoose
+  - JWT Authentication (optional)
+- **Frontend**:
+  - React (JavaScript)
+  - React Router (for navigation)
+  - Axios (for API calls)
+  - CSS Framework (Bootstrap)
 
-ReactPDF Basic Setup
-https://www.youtube.com/watch?v=JU7rfAMpbZA
+## Getting Started
 
-Generate PDF file in ReactJs? How to export a pdf table with jspdf?
-https://www.youtube.com/watch?v=4kJCLqYsIqA
+### Prerequisites
 
-How to parse or read CSV files in ReactJS - Papaparse
-https://www.youtube.com/watch?v=eUz8ZDsQfP8
+- **Node.js** and **npm** - [Download Node.js](https://nodejs.org/)
+- **MongoDB** (you can use [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) for a cloud database or install MongoDB locally)

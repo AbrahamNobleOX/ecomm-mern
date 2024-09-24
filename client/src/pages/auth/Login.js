@@ -42,6 +42,7 @@ export default function Login() {
       } else {
         // Store the authentication data in the local storage
         localStorage.setItem("auth", JSON.stringify(data));
+        console.log(data);
 
         // Update the authentication state with the received token and user data
         setAuth({ ...auth, token: data.token, user: data.user });
